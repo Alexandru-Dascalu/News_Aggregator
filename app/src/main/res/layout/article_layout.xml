@@ -30,9 +30,10 @@
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/articleImage"
                 android:layout_width="350dp"
-                android:layout_height="350dp"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
                 android:layout_below="@+id/displayReason"
-                android:cropToPadding="false"
                 android:layout_centerInParent="true"/>
 
             <androidx.appcompat.widget.AppCompatTextView
