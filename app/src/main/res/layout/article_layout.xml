@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="6dip">
 
     <androidx.cardview.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentTop="true"
-        card_view:cardCornerRadius="6dp">
+        android:layout_margin="5dp"
+        android:padding="5dp"
+        card_view:cardCornerRadius="10dp">
 
         <RelativeLayout
             android:id="@+id/layout_inside_card"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/displayReason"
@@ -27,10 +29,11 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/articleImage"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_below="@+id/displayReason">
-            </androidx.appcompat.widget.AppCompatImageView>
+                android:layout_width="350dp"
+                android:layout_height="350dp"
+                android:layout_below="@+id/displayReason"
+                android:cropToPadding="false"
+                android:layout_centerInParent="true"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/articleTitle"
@@ -48,14 +51,16 @@
                 android:id="@+id/articleSource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:padding="2dp"
                 android:layout_below="@+id/articleDescription"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/publicationTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/articleTitle"
-                android:layout_toRightOf="@+id/articleSource"/>
+                android:layout_below="@+id/articleDescription"
+                android:padding="2dp"
+                android:layout_toEndOf="@+id/articleSource"/>
         </RelativeLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>
