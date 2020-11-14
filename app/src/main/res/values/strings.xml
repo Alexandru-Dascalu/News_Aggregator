@@ -2,6 +2,9 @@
     <string name="app_name">NewsAggregator</string>
     <string name="account_settings">Account Settings</string>
     <string name="notification_settings">Notification Settings</string>
+    <string name="email_input_hint">Email address</string>
+    <string name="password_input_hint">Password</string>
+    <string name="log_in_button">Log In</string>
 
     <string-array name="tab_titles">
         <item>All</item>
