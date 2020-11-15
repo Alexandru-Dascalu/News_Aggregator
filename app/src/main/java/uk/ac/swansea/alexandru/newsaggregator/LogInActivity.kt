@@ -12,6 +12,7 @@ import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import kotlin.math.sign
 
 class LogInActivity : AppCompatActivity() {
 
@@ -25,7 +26,7 @@ class LogInActivity : AppCompatActivity() {
         Log.i("me", "Log in created")
     }
 
-    fun signIn(view: View) {
+    fun logIn(view: View) {
         val emailAddress = findViewById<EditText>(R.id.email_input).text.toString()
         val password = findViewById<EditText>(R.id.password_input).text.toString()
 
@@ -36,6 +37,11 @@ class LogInActivity : AppCompatActivity() {
         } else {
             Snackbar.make(view, "Type in credentials!", Snackbar.LENGTH_LONG).show()
         }
+    }
+
+    fun signUp(view: View) {
+        val signUpIntent = Intent(this, SignUpActivity::class.java)
+        startActivity(signUpIntent)
     }
 
     private fun checkLogIn(task: Task<AuthResult>, view: View) {
