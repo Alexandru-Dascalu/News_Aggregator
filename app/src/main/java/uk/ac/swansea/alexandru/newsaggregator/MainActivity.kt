@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        Log.i("activity start", "activity is created")
+        Log.i("me", "activity is created")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -56,5 +56,35 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("me", "Main start")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.i("me", "Main restart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("me","Main resume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("me", "Main pause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("me", "Main stop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("me", "Main destroy")
     }
 }

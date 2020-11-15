@@ -5,7 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
@@ -22,6 +21,8 @@ class LogInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sign_in)
         authenticator = FirebaseAuth.getInstance()
+
+        Log.i("me", "Log in created")
     }
 
     fun signIn(view: View) {
@@ -45,9 +46,40 @@ class LogInActivity : AppCompatActivity() {
             val currentView = this.currentFocus
 
             if(currentView != null) {
-                val keyboardManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                val keyboardManager = getSystemService(Context.INPUT_METHOD_SERVICE)
+                        as InputMethodManager
                 keyboardManager.hideSoftInputFromWindow(currentView.windowToken, 0)
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.i("me", "Log in start")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.i("me", "Log in restart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i("me","Log in resume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i("me", "Log in pause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.i("me", "Log in stop")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.i("me", "Log in destroy")
     }
 }
