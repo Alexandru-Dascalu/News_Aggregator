@@ -26,13 +26,16 @@ class LogInActivity : AppCompatActivity() {
     }
 
     fun signIn(view: View) {
-        val emailInput = findViewById<EditText>(R.id.email_input)
-        val passwordInput = findViewById<EditText>(R.id.password_input)
+        val emailAddress = findViewById<EditText>(R.id.email_input).text.toString()
+        val password = findViewById<EditText>(R.id.password_input).text.toString()
 
-        val task = authenticator.signInWithEmailAndPassword(emailInput.text.toString(),
-            passwordInput.text.toString())
+        if(emailAddress != "" && password != "") {
+            val task = authenticator.signInWithEmailAndPassword(emailAddress, password)
 
-        task.addOnCompleteListener(this) {logInTask -> checkLogIn(logInTask, view)}
+            task.addOnCompleteListener(this) {logInTask -> checkLogIn(logInTask, view)}
+        } else {
+            Snackbar.make(view, "Type in credentials!", Snackbar.LENGTH_LONG).show()
+        }
     }
 
     private fun checkLogIn(task: Task<AuthResult>, view: View) {
@@ -69,11 +72,15 @@ class LogInActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
+
+
         super.onPause()
         Log.i("me", "Log in pause")
     }
 
     override fun onStop() {
+        findViewById<EditText>(R.id.email_input).text.clear()
+        findViewById<EditText>(R.id.password_input).text.clear()
         super.onStop()
         Log.i("me", "Log in stop")
     }
