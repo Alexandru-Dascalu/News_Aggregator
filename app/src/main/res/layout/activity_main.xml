@@ -41,6 +41,4 @@
         android:layout_alignParentBottom="true"
         app:menu="@menu/navigation_bar_layout">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
-
-
 </RelativeLayout>

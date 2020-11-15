@@ -1,5 +1,6 @@
 package uk.ac.swansea.alexandru.newsaggregator
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
@@ -15,12 +17,27 @@ import uk.ac.swansea.alexandru.newsaggregator.adapters.TabAdapter
 class MainActivity : AppCompatActivity() {
     private val authenticator = FirebaseAuth.getInstance()
 
+    private val navigationBarItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.customise_button -> {
+                Log.i("mama", "TRUMP!")
+                val intent = Intent(this, CustomiseActivity::class.java)
+                startActivity(intent)
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val appBar = findViewById<Toolbar>(R.id.main_toolbar)
         setSupportActionBar(appBar)
+
+        findViewById<BottomNavigationView>(R.id.bottom_navigation_bar).
+            setOnNavigationItemSelectedListener(navigationBarItemSelectedListener)
 
         val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
         val viewPager = findViewById<ViewPager2>(R.id.stream_pager)
