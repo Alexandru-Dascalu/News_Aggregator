@@ -31,7 +31,7 @@ class LogInActivity : AppCompatActivity() {
         val task = authenticator.signInWithEmailAndPassword(emailInput.text.toString(),
             passwordInput.text.toString())
 
-        task.addOnCompleteListener(this) {task -> checkLogIn(task, view)}
+        task.addOnCompleteListener(this) {logInTask -> checkLogIn(logInTask, view)}
     }
 
     private fun checkLogIn(task: Task<AuthResult>, view: View) {

@@ -5,6 +5,7 @@
     <string name="email_input_hint">Email address</string>
     <string name="password_input_hint">Password</string>
     <string name="log_in_button">Log In</string>
+    <string name="log_out_button">Log Out</string>
 
     <string-array name="tab_titles">
         <item>All</item>

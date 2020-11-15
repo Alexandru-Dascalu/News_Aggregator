@@ -8,4 +8,8 @@
         android:id="@+id/notification_settings_button"
         android:title="@string/notification_settings">
     </item>
+    <item
+        android:id="@+id/log_out_button"
+        android:title="@string/log_out_button">
+    </item>
 </menu>
