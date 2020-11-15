@@ -4,13 +4,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.auth.FirebaseAuth
 import uk.ac.swansea.alexandru.newsaggregator.adapters.TabAdapter
 
 class MainActivity : AppCompatActivity() {
+    private val authenticator = FirebaseAuth.getInstance()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -31,11 +35,26 @@ class MainActivity : AppCompatActivity() {
             }
         }).attach()
 
+        authenticator.addAuthStateListener {
+            if(authenticator.currentUser == null) {
+                this.finish()
+            }
+        }
+
         Log.i("activity start", "activity is created")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.appbar_layout, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.log_out_button) {
+            authenticator.signOut()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
