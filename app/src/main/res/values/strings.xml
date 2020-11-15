@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NewsAggregator</string>
+    <string name="app_name">News Aggregator</string>
     <string name="account_settings">Account Settings</string>
     <string name="notification_settings">Notification Settings</string>
     <string name="email_input_hint">Email address</string>

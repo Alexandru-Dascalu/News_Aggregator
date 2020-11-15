@@ -19,7 +19,7 @@ class LogInActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.sign_in)
+        setContentView(R.layout.activity_sign_in)
         authenticator = FirebaseAuth.getInstance()
 
         Log.i("me", "Log in created")
@@ -72,8 +72,6 @@ class LogInActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-
-
         super.onPause()
         Log.i("me", "Log in pause")
     }
