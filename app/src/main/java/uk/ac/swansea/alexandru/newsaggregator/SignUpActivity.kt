@@ -1,5 +1,6 @@
 package uk.ac.swansea.alexandru.newsaggregator
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -23,7 +24,12 @@ class SignUpActivity : AppCompatActivity() {
 
         if(emailAddress != "" && password != "") {
             authenticator.createUserWithEmailAndPassword(emailAddress, password)
-            Snackbar.make(view, "Account succesfully created!", Snackbar.LENGTH_SHORT).show()
+            //Snackbar.make(view, "Account succesfully created!", Snackbar.LENGTH_SHORT).show()
+
+            authenticator.signInWithEmailAndPassword(emailAddress, password)
+            val mainActivityIntent = Intent(this, MainActivity::class.java)
+            startActivity(mainActivityIntent)
+            this.finish()
         }
     }
 }
