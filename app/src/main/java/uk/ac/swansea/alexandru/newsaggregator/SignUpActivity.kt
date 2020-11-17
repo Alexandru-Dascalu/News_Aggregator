@@ -39,17 +39,17 @@ class SignUpActivity : AppCompatActivity() {
             try {
                 throw signUpTask.exception!!
             } catch (e: FirebaseAuthInvalidCredentialsException) {
-                Snackbar.make(view, "You need to type in a valid email address!", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, getString(R.string.invalid_email_msg), Snackbar.LENGTH_LONG).show()
                 Log.e("error", "$e.message")
                 hideKeyboard(view, this)
             }
             catch (e: FirebaseAuthWeakPasswordException) {
-                Snackbar.make(view, "Your password is too weak!$e.getReason()", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "${getString(R.string.weak_password_msg)}!$e.getReason()", Snackbar.LENGTH_LONG).show()
                 Log.e("error", "${e.reason}")
                 hideKeyboard(view, this)
             }
             catch (e: FirebaseAuthUserCollisionException) {
-                Snackbar.make(view, "A user account with this email already exists!", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, getString(R.string.existing_user_collision_msg), Snackbar.LENGTH_LONG).show()
                 Log.e("error", "${e.message}")
                 hideKeyboard(view, this)
             }

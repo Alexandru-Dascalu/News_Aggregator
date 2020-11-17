@@ -8,6 +8,9 @@
     <string name="log_out_button">Log Out</string>
     <string name="sign_up_button">Sign up</string>
     <string name="create_account_button">Create account</string>
+    <string name="invalid_email_msg">You need to type in a valid email address!</string>
+    <string name="weak_password_msg">Your password is too weak!</string>
+    <string name="existing_user_collision_msg">A user account with this email already exists!</string>
 
     <string-array name="tab_titles">
         <item>All</item>
