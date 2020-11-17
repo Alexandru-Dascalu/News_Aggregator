@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
     private val navigationBarItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.customise_button -> {
-                Log.i("mama", "TRUMP!")
+                Log.i("mama", "BLAH!")
                 val intent = Intent(this, CustomiseActivity::class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true

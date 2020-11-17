@@ -10,7 +10,8 @@
         android:layout_height="55dp"
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
-        app:titleTextColor="@android:color/white" />
+        app:titleTextColor="@android:color/white"
+        app:menu="@menu/appbar_layout"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/displayReason"
