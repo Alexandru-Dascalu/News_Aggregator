@@ -1,18 +1,17 @@
 package uk.ac.swansea.alexandru.newsaggregator
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import kotlin.math.sign
+
+import uk.ac.swansea.alexandru.newsaggregator.utils.hideKeyboard
 
 class LogInActivity : AppCompatActivity() {
 
@@ -55,9 +54,7 @@ class LogInActivity : AppCompatActivity() {
             val currentView = this.currentFocus
 
             if(currentView != null) {
-                val keyboardManager = getSystemService(Context.INPUT_METHOD_SERVICE)
-                        as InputMethodManager
-                keyboardManager.hideSoftInputFromWindow(currentView.windowToken, 0)
+                hideKeyboard(currentView, this)
             }
         }
     }
