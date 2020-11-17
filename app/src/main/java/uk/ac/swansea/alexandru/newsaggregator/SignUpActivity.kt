@@ -24,11 +24,18 @@ class SignUpActivity : AppCompatActivity() {
     fun createAccount(view: View) {
         val emailAddress = findViewById<EditText>(R.id.email_input).text.toString()
         val password = findViewById<EditText>(R.id.password_input).text.toString()
+        val confirmPassword = findViewById<EditText>(R.id.confirm_password_input).text.toString()
 
         if(emailAddress != "" && password != "") {
-            val task: Task<AuthResult> = authenticator.createUserWithEmailAndPassword(
-                emailAddress, password)
-            task.addOnCompleteListener(this) {signUpTask -> checkSignUp(view, signUpTask)}
+            if(password.equals(confirmPassword))
+            {
+                val task: Task<AuthResult> = authenticator.createUserWithEmailAndPassword(
+                    emailAddress, password)
+                task.addOnCompleteListener(this) {signUpTask -> checkSignUp(view, signUpTask)}
+            } else {
+                Snackbar.make(view, getString(R.string.password_confirmation_msg), Snackbar.LENGTH_LONG).show()
+                hideKeyboard(view, this)
+            }
         }
     }
 

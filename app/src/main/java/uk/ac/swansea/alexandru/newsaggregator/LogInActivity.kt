@@ -35,6 +35,7 @@ class LogInActivity : AppCompatActivity() {
             task.addOnCompleteListener(this) {logInTask -> checkLogIn(logInTask, view)}
         } else {
             Snackbar.make(view, "Type in credentials!", Snackbar.LENGTH_LONG).show()
+            hideKeyboard(view, this)
         }
     }
 
@@ -50,7 +51,7 @@ class LogInActivity : AppCompatActivity() {
             mainActivityIntent.putExtra("userEmail", user?.email)
             startActivity(mainActivityIntent)
         } else {
-            Snackbar.make(view, "WRONG!", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(view, getString(R.string.wrong_login_msg), Snackbar.LENGTH_LONG).show()
             val currentView = this.currentFocus
 
             if(currentView != null) {
