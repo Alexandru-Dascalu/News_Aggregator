@@ -27,7 +27,7 @@ class SignUpActivity : AppCompatActivity() {
         val confirmPassword = findViewById<EditText>(R.id.confirm_password_input).text.toString()
 
         if(emailAddress != "" && password != "") {
-            if(password.equals(confirmPassword))
+            if(password == confirmPassword)
             {
                 val task: Task<AuthResult> = authenticator.createUserWithEmailAndPassword(
                     emailAddress, password)
@@ -41,6 +41,8 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun checkSignUp(view: View, signUpTask: Task<AuthResult>) {
         if(signUpTask.isSuccessful) {
+            val intent: Intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             this.finish()
         } else {
             try {
