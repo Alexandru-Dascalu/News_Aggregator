@@ -17,19 +17,11 @@
         app:menu="@menu/appbar_layout">
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
+    <FrameLayout
+        android:id="@+id/main_content_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/main_toolbar">
-    </com.google.android.material.tabs.TabLayout>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/stream_pager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tab_layout">
-    </androidx.viewpager2.widget.ViewPager2>
+        android:layout_below="@+id/main_toolbar"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation_bar"

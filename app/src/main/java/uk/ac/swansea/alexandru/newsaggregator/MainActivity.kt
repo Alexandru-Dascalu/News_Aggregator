@@ -7,20 +7,20 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
-import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsStreamTabAdapter
+import uk.ac.swansea.alexandru.newsaggregator.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity() {
     private val authenticator = FirebaseAuth.getInstance()
 
     private val navigationBarItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
+            R.id.home_button -> {
+                addHomeFragment()
+                return@OnNavigationItemSelectedListener true
+            }
             R.id.customise_button -> {
-                Log.i("mama", "BLAH!")
                 val intent = Intent(this, CustomiseActivity::class.java)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
@@ -39,25 +39,13 @@ class MainActivity : AppCompatActivity() {
         findViewById<BottomNavigationView>(R.id.bottom_navigation_bar).
             setOnNavigationItemSelectedListener(navigationBarItemSelectedListener)
 
-        val tabLayout = findViewById<TabLayout>(R.id.tab_layout)
-        val viewPager = findViewById<ViewPager2>(R.id.stream_pager)
-        val tabTitles = resources.getStringArray(R.array.tab_titles)
-
-        viewPager.adapter = NewsStreamTabAdapter(this)
-        TabLayoutMediator(tabLayout, viewPager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-            when (position) {
-                0 -> tab.text = tabTitles[0]
-                1 -> tab.text = tabTitles[1]
-                2 -> tab.text = tabTitles[2]
-            }
-        }).attach()
-
         authenticator.addAuthStateListener {
             if(authenticator.currentUser == null) {
                 this.finish()
             }
         }
 
+        addHomeFragment()
         Log.i("me", "activity is created")
     }
 
@@ -73,6 +61,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun addHomeFragment() {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        val homeFragment = HomeFragment()
+
+        fragmentTransaction.add(R.id.main_content_fragment, homeFragment)
+        fragmentTransaction.commit()
     }
 
     override fun onStart() {

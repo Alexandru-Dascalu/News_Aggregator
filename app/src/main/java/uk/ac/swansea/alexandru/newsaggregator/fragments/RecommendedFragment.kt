@@ -1,4 +1,4 @@
-package uk.ac.swansea.alexandru.newsaggregator
+package uk.ac.swansea.alexandru.newsaggregator.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import uk.ac.swansea.alexandru.newsaggregator.Article
+import uk.ac.swansea.alexandru.newsaggregator.NewsCardAdapter
+import uk.ac.swansea.alexandru.newsaggregator.R
 
-class WelshFragment : Fragment() {
+class RecommendedFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         inflater.inflate(R.layout.news_stream_fragment, container, false)!!
         return super.onCreateView(inflater, container, savedInstanceState)
