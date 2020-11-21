@@ -9,16 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class AllFragment : Fragment() {
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val newsStreamRootView = inflater.inflate(R.layout.news_stream_fragment, container, false)
-
-        val articleList = populateList()
-
-        val recyclerView = newsStreamRootView.findViewById<RecyclerView>(R.id.recycler_view) as RecyclerView
-        val layoutManager = LinearLayoutManager(context)
-        recyclerView.layoutManager = layoutManager
-        val newsCardAdapter = NewsCardAdapter(articleList)
-        recyclerView.adapter = newsCardAdapter
 
         return newsStreamRootView
     }
@@ -26,7 +19,7 @@ class AllFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val articleList = populateList()
 
-        val recyclerView = getView()?.findViewById<RecyclerView>(R.id.recycler_view) as RecyclerView
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
         val newsCardAdapter = NewsCardAdapter(articleList)
