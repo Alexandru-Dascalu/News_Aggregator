@@ -1,14 +1,15 @@
 package uk.ac.swansea.alexandru.newsaggregator
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import uk.ac.swansea.alexandru.newsaggregator.fragments.CustomiseFragment
 import uk.ac.swansea.alexandru.newsaggregator.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity() {
@@ -21,8 +22,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.customise_button -> {
-                val intent = Intent(this, CustomiseActivity::class.java)
-                startActivity(intent)
+                addCustomiseFragment()
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -64,10 +64,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addHomeFragment() {
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val homeFragment = HomeFragment()
+        replaceFragment(HomeFragment())
+    }
 
-        fragmentTransaction.add(R.id.main_content_fragment, homeFragment)
+    private fun addCustomiseFragment() {
+        replaceFragment(CustomiseFragment())
+    }
+
+    private fun replaceFragment(newFragment: Fragment) {
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+
+        fragmentTransaction.replace(R.id.main_content_frame, newFragment)
         fragmentTransaction.commit()
     }
 
