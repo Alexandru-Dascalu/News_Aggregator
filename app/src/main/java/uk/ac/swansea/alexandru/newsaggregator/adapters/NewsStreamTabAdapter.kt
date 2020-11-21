@@ -7,7 +7,7 @@ import uk.ac.swansea.alexandru.newsaggregator.AllFragment
 import uk.ac.swansea.alexandru.newsaggregator.RecommendedFragment
 import uk.ac.swansea.alexandru.newsaggregator.WelshFragment
 
-class TabAdapter (activity: AppCompatActivity) : FragmentStateAdapter(activity) {
+class NewsStreamTabAdapter (activity: AppCompatActivity) : FragmentStateAdapter(activity) {
     override fun createFragment(position: Int): Fragment {
         when (position) {
             0 -> return AllFragment()

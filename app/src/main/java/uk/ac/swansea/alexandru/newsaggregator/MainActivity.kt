@@ -12,7 +12,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
-import uk.ac.swansea.alexandru.newsaggregator.adapters.TabAdapter
+import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsStreamTabAdapter
 
 class MainActivity : AppCompatActivity() {
     private val authenticator = FirebaseAuth.getInstance()
@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         val viewPager = findViewById<ViewPager2>(R.id.stream_pager)
         val tabTitles = resources.getStringArray(R.array.tab_titles)
 
-        viewPager.adapter = TabAdapter(this)
+        viewPager.adapter = NewsStreamTabAdapter(this)
         TabLayoutMediator(tabLayout, viewPager, TabLayoutMediator.TabConfigurationStrategy { tab, position ->
             when (position) {
                 0 -> tab.text = tabTitles[0]
