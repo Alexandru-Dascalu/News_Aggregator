@@ -13,14 +13,15 @@ import uk.ac.swansea.alexandru.newsaggregator.R
 
 class RecommendedFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        inflater.inflate(R.layout.news_stream_fragment, container, false)!!
-        return super.onCreateView(inflater, container, savedInstanceState)
+        val newsStreamRootView = inflater.inflate(R.layout.news_stream_fragment, container, false)
+
+        return newsStreamRootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val articleList = populateList()
 
-        val recyclerView = getView()?.findViewById<RecyclerView>(R.id.recycler_view) as RecyclerView
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
         val newsCardAdapter = NewsCardAdapter(articleList)

@@ -12,7 +12,6 @@ import uk.ac.swansea.alexandru.newsaggregator.NewsCardAdapter
 import uk.ac.swansea.alexandru.newsaggregator.R
 
 class AllFragment : Fragment() {
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val newsStreamRootView = inflater.inflate(R.layout.news_stream_fragment, container, false)
 

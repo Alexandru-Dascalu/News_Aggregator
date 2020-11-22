@@ -6,10 +6,37 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.database.ktx.getValue
+import com.google.firebase.ktx.Firebase
 import uk.ac.swansea.alexandru.newsaggregator.R
 
 class CustomiseFragment : Fragment() {
+    private val database = Firebase.database
+    private val reference = database.getReference("topics")
+
+    private val dataListener =  object: ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            Log.i("Kav", dataSnapshot.getValue<ArrayList<String>>().toString())
+            val textView = view!!.findViewById<TextView>(R.id.displayReason)
+            textView.text = dataSnapshot.getValue<ArrayList<String>>().toString()
+        }
+
+        override fun onCancelled(databaseError: DatabaseError) {
+            Log.w("a", "loadPost:onCancelled", databaseError.toException())
+        }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        reference.addValueEventListener(dataListener)
+        Log.i("customisefragment", "Customise fragment on create")
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -26,11 +53,6 @@ class CustomiseFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context )
         Log.i("customisefragment", "Customise fragment on attach")
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Log.i("customisefragment", "Customise fragment on create")
     }
 
     override fun onStart() {
