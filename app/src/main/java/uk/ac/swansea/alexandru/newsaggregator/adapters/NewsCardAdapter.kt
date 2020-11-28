@@ -1,4 +1,4 @@
-package uk.ac.swansea.alexandru.newsaggregator
+package uk.ac.swansea.alexandru.newsaggregator.adapters
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import uk.ac.swansea.alexandru.newsaggregator.Article
+import uk.ac.swansea.alexandru.newsaggregator.R
 
 class NewsCardAdapter (private val articleList: MutableList<Article>) : RecyclerView.Adapter<NewsCardAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
