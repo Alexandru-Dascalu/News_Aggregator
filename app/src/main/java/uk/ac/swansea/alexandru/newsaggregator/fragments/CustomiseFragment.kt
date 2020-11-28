@@ -6,25 +6,47 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import uk.ac.swansea.alexandru.newsaggregator.R
+import uk.ac.swansea.alexandru.newsaggregator.model.User
 
 class CustomiseFragment : Fragment() {
-    private val database = Firebase.database
-    private val reference = database.getReference("topics")
+    private val database : FirebaseDatabase = Firebase.database
+    private val newsTopicsReference : DatabaseReference = database.getReference("topics")
+    private  val userReference: DatabaseReference
 
-    private val dataListener =  object: ValueEventListener {
+    init {
+        val userID = FirebaseAuth.getInstance().currentUser!!.uid
+        userReference = database.getReference("users").child(userID)
+    }
+
+    private lateinit var newsTopics : Map<String, Int>
+    private lateinit var user : User
+
+    private val newsTopicsListener =  object: ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
-            Log.i("Kav", dataSnapshot.getValue<ArrayList<String>>().toString())
-            val textView = view!!.findViewById<TextView>(R.id.displayReason)
-            textView.text = dataSnapshot.getValue<ArrayList<String>>().toString()
+            val topics = dataSnapshot.getValue<Map<String, Int>>()
+            if(topics != null) {
+                newsTopics = topics
+            }
+        }
+
+        override fun onCancelled(databaseError: DatabaseError) {
+            Log.w("a", "loadPost:onCancelled", databaseError.toException())
+        }
+    }
+
+    private val userListener =  object: ValueEventListener {
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            val remoteUser = dataSnapshot.getValue<User>()
+            if(remoteUser != null) {
+                user = remoteUser
+            }
         }
 
         override fun onCancelled(databaseError: DatabaseError) {
@@ -34,7 +56,8 @@ class CustomiseFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        reference.addValueEventListener(dataListener)
+        newsTopicsReference.addValueEventListener(newsTopicsListener)
+        userReference.addValueEventListener(userListener)
         Log.i("customisefragment", "Customise fragment on create")
     }
 

@@ -26,8 +26,10 @@ class LogInActivity : AppCompatActivity() {
     }
 
     fun logIn(view: View) {
-        val emailAddress = findViewById<EditText>(R.id.email_input).text.toString()
-        val password = findViewById<EditText>(R.id.password_input).text.toString()
+//        val emailAddress = findViewById<EditText>(R.id.email_input).text.toString()
+//        val password = findViewById<EditText>(R.id.password_input).text.toString()
+        val emailAddress = "alexandru.dascalu100@gmail.com"
+        val password = "test12"
 
         if(emailAddress != "" && password != "") {
             val task = authenticator.signInWithEmailAndPassword(emailAddress, password)
@@ -46,9 +48,7 @@ class LogInActivity : AppCompatActivity() {
 
     private fun checkLogIn(task: Task<AuthResult>, view: View) {
         if (task.isSuccessful) {
-            val user = authenticator.currentUser
             val mainActivityIntent = Intent(this, MainActivity::class.java)
-            mainActivityIntent.putExtra("userEmail", user?.email)
             startActivity(mainActivityIntent)
         } else {
             Snackbar.make(view, getString(R.string.wrong_login_msg), Snackbar.LENGTH_LONG).show()
