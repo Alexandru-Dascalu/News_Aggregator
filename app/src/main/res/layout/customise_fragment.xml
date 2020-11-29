@@ -1,18 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linear_layout_news_stream_names"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/customisation_tab_layout"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/news_stream_names_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        android:orientation="horizontal"
+        android:background="@color/colorBackground">
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/customisation_stream_pager"
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="15" />
+
+        <ImageButton
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_baseline_add"
+            android:background="?android:attr/selectableItemBackground"/>
+
+        <ImageButton
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_baseline_remove"
+            android:background="?android:attr/selectableItemBackground"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <view class="androidx.recyclerview.widget.RecyclerView"
+        android:id="@+id/news_stream_names_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tab_layout" />
+        android:scrollbars="vertical" />
 
-</RelativeLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
