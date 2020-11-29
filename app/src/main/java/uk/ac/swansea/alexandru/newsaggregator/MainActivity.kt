@@ -153,4 +153,15 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         Log.i("me", "Main destroy")
     }
+
+    fun addCustomNewsStream(name: String) {
+        val newNewsStream = NewsStream(name, mutableListOf<Int>())
+        user.customStreams.add(newNewsStream)
+        userReference.setValue(user)
+    }
+
+    fun removeCustomNewsStream(deletedName: String) {
+        user.customStreams.removeIf { stream -> stream.name == deletedName }
+        userReference.setValue(user)
+    }
 }
