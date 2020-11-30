@@ -13,7 +13,7 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import uk.ac.swansea.alexandru.newsaggregator.fragments.CustomiseFragment
+import uk.ac.swansea.alexandru.newsaggregator.fragments.CustomiseStreamsFragment
 import uk.ac.swansea.alexandru.newsaggregator.fragments.HomeFragment
 import uk.ac.swansea.alexandru.newsaggregator.model.NewsStream
 import uk.ac.swansea.alexandru.newsaggregator.model.User
@@ -29,12 +29,12 @@ class MainActivity : AppCompatActivity() {
         userReference = database.getReference("users").child(userID)
     }
 
-    private lateinit var newsTopics : Map<String, Int>
+    private lateinit var newsTopics : List<String>
     private lateinit var user : User
 
     private val newsTopicsListener =  object: ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val topics = dataSnapshot.getValue<Map<String, Int>>()
+            val topics = dataSnapshot.getValue<List<String>>()
             if(topics != null) {
                 newsTopics = topics
             }
@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addCustomiseFragment() {
-        replaceFragment(CustomiseFragment(user))
+        replaceFragment(CustomiseStreamsFragment(user, newsTopics))
     }
 
     private fun replaceFragment(newFragment: Fragment) {

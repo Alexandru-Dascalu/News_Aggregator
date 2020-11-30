@@ -21,7 +21,7 @@ class RecommendedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val articleList = populateList()
 
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.news_stream_recycler_view)
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
         val newsCardAdapter = NewsCardAdapter(articleList)

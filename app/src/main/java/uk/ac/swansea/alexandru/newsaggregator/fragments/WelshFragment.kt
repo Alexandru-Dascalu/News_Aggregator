@@ -20,7 +20,7 @@ class WelshFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val articleList = populateList()
 
-        val recyclerView = getView()?.findViewById<RecyclerView>(R.id.recycler_view) as RecyclerView
+        val recyclerView = getView()?.findViewById<RecyclerView>(R.id.news_stream_recycler_view) as RecyclerView
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
         val newsCardAdapter = NewsCardAdapter(articleList)

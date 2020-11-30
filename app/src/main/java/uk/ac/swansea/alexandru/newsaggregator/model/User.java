@@ -4,17 +4,17 @@ import java.util.List;
 import java.util.Map;
 
 public class User {
-    private Map<String, Integer> customKeywords;
+    private List<String> customKeywords;
     private List<NewsStream> customStreams;
 
     private User() {}
 
-    public User(Map<String, Integer> customKeywords, List<NewsStream> customStreams) {
+    public User(List<String> customKeywords, List<NewsStream> customStreams) {
         this.customKeywords = customKeywords;
         this.customStreams = customStreams;
     }
 
-    public Map<String, Integer> getCustomKeywords() {
+    public List<String> getCustomKeywords() {
         return customKeywords;
     }
 

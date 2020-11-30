@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +23,7 @@ import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsStreamNameAdapter
 import uk.ac.swansea.alexandru.newsaggregator.model.User
 import uk.ac.swansea.alexandru.newsaggregator.utils.hideKeyboard
 
-class CustomiseFragment (private val user: User) : Fragment() {
+class CustomiseStreamsFragment (private val user: User, private val topics: List<String>) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,23 +32,23 @@ class CustomiseFragment (private val user: User) : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val homeRootView = inflater.inflate(R.layout.customise_fragment, container, false)
+        val customiseRootView = inflater.inflate(R.layout.customise_streams_fragment, container, false)
         Log.i("customisefragment", "Customise fragment on create view")
 
-        val addStreamButton = homeRootView.findViewById<ImageButton>(R.id.add_stream_button)
+        val addStreamButton = customiseRootView.findViewById<ImageButton>(R.id.add_stream_button)
         addStreamButton.setOnClickListener { view -> onAddCustomStream() }
 
-        val removeStreamButton = homeRootView.findViewById<ImageButton>(R.id.remove_stream_button)
+        val removeStreamButton = customiseRootView.findViewById<ImageButton>(R.id.remove_stream_button)
         removeStreamButton.setOnClickListener {view -> onRemoveCustomStream(view)}
 
-        return homeRootView
+        return customiseRootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
        val recyclerView = view.findViewById<RecyclerView>(R.id.news_stream_names_recycler_view)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = NewsStreamNameAdapter(user.customStreams)
+        recyclerView.adapter = NewsStreamNameAdapter(user, topics, activity as AppCompatActivity)
         recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
 
         Log.i("customisefragment", "Customise fragment on view created")
