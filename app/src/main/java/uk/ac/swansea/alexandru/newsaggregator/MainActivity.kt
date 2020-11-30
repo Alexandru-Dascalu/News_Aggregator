@@ -20,43 +20,6 @@ import uk.ac.swansea.alexandru.newsaggregator.model.User
 
 class MainActivity : AppCompatActivity() {
     private val authenticator = FirebaseAuth.getInstance()
-    private val database : FirebaseDatabase = Firebase.database
-    private val newsTopicsReference : DatabaseReference = database.getReference("topics")
-    private  val userReference: DatabaseReference
-
-    init {
-        val userID = FirebaseAuth.getInstance().currentUser!!.uid
-        userReference = database.getReference("users").child(userID)
-    }
-
-    private lateinit var newsTopics : List<String>
-    private lateinit var user : User
-
-    private val newsTopicsListener =  object: ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val topics = dataSnapshot.getValue<List<String>>()
-            if(topics != null) {
-                newsTopics = topics
-            }
-        }
-
-        override fun onCancelled(databaseError: DatabaseError) {
-            Log.w("a", "loadPost:onCancelled", databaseError.toException())
-        }
-    }
-
-    private val userListener =  object: ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val remoteUser = dataSnapshot.getValue<User>()
-            if(remoteUser != null) {
-                user = remoteUser
-            }
-        }
-
-        override fun onCancelled(databaseError: DatabaseError) {
-            Log.w("a", "loadPost:onCancelled", databaseError.toException())
-        }
-    }
 
     private val navigationBarItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
@@ -73,11 +36,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Database(authenticator)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        newsTopicsReference.addValueEventListener(newsTopicsListener)
-        userReference.addValueEventListener(userListener)
 
         val appBar = findViewById<Toolbar>(R.id.main_toolbar)
         setSupportActionBar(appBar)
@@ -114,7 +76,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun addCustomiseFragment() {
-        replaceFragment(CustomiseStreamsFragment(user, newsTopics))
+        replaceFragment(CustomiseStreamsFragment())
     }
 
     private fun replaceFragment(newFragment: Fragment) {
@@ -152,16 +114,5 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.i("me", "Main destroy")
-    }
-
-    fun addCustomNewsStream(name: String) {
-        val newNewsStream = NewsStream(name, mutableListOf<Int>())
-        user.customStreams.add(newNewsStream)
-        userReference.setValue(user)
-    }
-
-    fun removeCustomNewsStream(deletedName: String) {
-        user.customStreams.removeIf { stream -> stream.name == deletedName }
-        userReference.setValue(user)
     }
 }

@@ -6,12 +6,13 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.fragments.CustomiseKeywordFragment
 import uk.ac.swansea.alexandru.newsaggregator.model.NewsStream
 import uk.ac.swansea.alexandru.newsaggregator.model.User
 
-class NewsStreamNameAdapter (private val user: User, private val topics: List<String>, private val activity: AppCompatActivity) : RecyclerView.Adapter<NewsStreamNameAdapter.ViewHolder>() {
+class NewsStreamNameAdapter (private val activity: AppCompatActivity) : RecyclerView.Adapter<NewsStreamNameAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -21,11 +22,11 @@ class NewsStreamNameAdapter (private val user: User, private val topics: List<St
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.streamNameTextView.text = user.customStreams[position].name
+        holder.streamNameTextView.text = Database.instance.getUser().customStreams[position].name
     }
 
     override fun getItemCount(): Int {
-        return user.customStreams.size
+        return Database.instance.getUser().customStreams.size
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -35,21 +36,12 @@ class NewsStreamNameAdapter (private val user: User, private val topics: List<St
             itemView.setOnClickListener() { item ->
                 val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
 
-                val stream: NewsStream = user.customStreams.first { stream -> stream.name ==
-                        streamNameTextView.text.toString() }
+                val stream: String = streamNameTextView.text.toString()
 
-                fragmentTransaction.replace(R.id.main_content_frame, CustomiseKeywordFragment(getKeywords()))
+                fragmentTransaction.replace(R.id.main_content_frame, CustomiseKeywordFragment(stream))
                 fragmentTransaction.addToBackStack("key_word_fragment")
                 fragmentTransaction.commit()
             }
         }
-    }
-
-    private fun getKeywords() : List<String> {
-        val keywords = mutableListOf<String>()
-        keywords.addAll(topics)
-        keywords.addAll(user.customKeywords)
-
-        return keywords
     }
 }

@@ -17,13 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.MainActivity
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsStreamNameAdapter
 import uk.ac.swansea.alexandru.newsaggregator.model.User
 import uk.ac.swansea.alexandru.newsaggregator.utils.hideKeyboard
 
-class CustomiseStreamsFragment (private val user: User, private val topics: List<String>) : Fragment() {
+class CustomiseStreamsFragment () : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ class CustomiseStreamsFragment (private val user: User, private val topics: List
        val recyclerView = view.findViewById<RecyclerView>(R.id.news_stream_names_recycler_view)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = NewsStreamNameAdapter(user, topics, activity as AppCompatActivity)
+        recyclerView.adapter = NewsStreamNameAdapter(activity as AppCompatActivity)
         recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
 
         Log.i("customisefragment", "Customise fragment on view created")
@@ -106,7 +107,7 @@ class CustomiseStreamsFragment (private val user: User, private val topics: List
         val addButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         addButton.setOnClickListener() {view ->
             if(streamNameInput.text.toString() != "") {
-                (activity as MainActivity).addCustomNewsStream(streamNameInput.text.toString())
+                Database.instance.addCustomNewsStream(streamNameInput.text.toString())
                 dialog.dismiss()
             } else {
                 Snackbar.make(this.view!!, resources.getString(R.string.stream_name_type_in_message),
@@ -128,7 +129,7 @@ class CustomiseStreamsFragment (private val user: User, private val topics: List
         val addButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         addButton.setOnClickListener() {view ->
             if(streamNameInput.text.toString() != "") {
-                (activity as MainActivity).removeCustomNewsStream(streamNameInput.text.toString())
+                Database.instance.removeCustomNewsStream(streamNameInput.text.toString())
                 dialog.dismiss()
             } else {
                 Snackbar.make(this.view!!, resources.getString(R.string.stream_name_type_in_message),
