@@ -34,7 +34,7 @@ class KeywordButtonAdapter (private val keywords: List<String>, private val sele
                 val button : MaterialButton = view as MaterialButton
                 button.setBackgroundColor(ContextCompat.getColor(button.context, R.color.colorBackground))
                 button.setTextColor(ContextCompat.getColor(button.context, R.color.colorPrimary))
-                button.strokeWidth = 5
+                button.strokeWidth = 10
                 button.setStrokeColorResource(R.color.colorPrimary)
             }
         }

@@ -7,13 +7,14 @@
 
     <Button
         android:id="@+id/keyword_button"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="20dp"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:cornerRadius="10dp"
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@color/onPrimary"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
