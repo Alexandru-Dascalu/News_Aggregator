@@ -4,7 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.button.MaterialButton
 import uk.ac.swansea.alexandru.newsaggregator.R
 
 class KeywordButtonAdapter (private val keywords: List<String>, private val selectedKeywords: Set<String>) : RecyclerView.Adapter<KeywordButtonAdapter.ViewHolder>() {
@@ -25,11 +27,15 @@ class KeywordButtonAdapter (private val keywords: List<String>, private val sele
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val keywordButton = itemView.findViewById<Button>(R.id.keyword_button)
+        val keywordButton: Button = itemView.findViewById<Button>(R.id.keyword_button)
 
         init {
-            keywordButton.setOnClickListener() {button ->
-
+            keywordButton.setOnClickListener() {view ->
+                val button : MaterialButton = view as MaterialButton
+                button.setBackgroundColor(ContextCompat.getColor(button.context, R.color.colorBackground))
+                button.setTextColor(ContextCompat.getColor(button.context, R.color.colorPrimary))
+                button.strokeWidth = 5
+                button.setStrokeColorResource(R.color.colorPrimary)
             }
         }
     }

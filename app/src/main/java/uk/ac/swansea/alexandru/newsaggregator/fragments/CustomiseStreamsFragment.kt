@@ -109,7 +109,6 @@ class CustomiseStreamsFragment (private val user: User, private val topics: List
                 (activity as MainActivity).addCustomNewsStream(streamNameInput.text.toString())
                 dialog.dismiss()
             } else {
-                hideKeyboard(this.view!!, context!!)
                 Snackbar.make(this.view!!, resources.getString(R.string.stream_name_type_in_message),
                     Snackbar.LENGTH_SHORT).show()
             }
@@ -132,7 +131,6 @@ class CustomiseStreamsFragment (private val user: User, private val topics: List
                 (activity as MainActivity).removeCustomNewsStream(streamNameInput.text.toString())
                 dialog.dismiss()
             } else {
-                hideKeyboard(fragmentView, context!!)
                 Snackbar.make(this.view!!, resources.getString(R.string.stream_name_type_in_message),
                     Snackbar.LENGTH_SHORT).show()
             }
