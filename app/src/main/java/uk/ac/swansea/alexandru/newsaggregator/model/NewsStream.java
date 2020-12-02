@@ -1,5 +1,6 @@
 package uk.ac.swansea.alexandru.newsaggregator.model;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class NewsStream {
@@ -19,5 +20,11 @@ public class NewsStream {
 
     public List<Integer> getKeywords() {
         return keywords;
+    }
+
+    public void setKeywords() {
+        if(this.keywords == null){
+            this.keywords = new LinkedList<>();
+        }
     }
 }

@@ -39,6 +39,10 @@ class Database (private val authenticator: FirebaseAuth) {
             val remoteUser = dataSnapshot.getValue<User>()
             if(remoteUser != null) {
                 user = remoteUser
+
+                user.setCustomKeywords()
+                user.setCustomStreams()
+                user.customStreams.forEach { it.setKeywords() }
             }
         }
 
