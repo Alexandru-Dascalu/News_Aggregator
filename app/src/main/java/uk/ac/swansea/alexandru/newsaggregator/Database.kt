@@ -125,6 +125,10 @@ class Database (private val authenticator: FirebaseAuth) {
         return keywordList
     }
 
+    fun addCustomKeyword(keyword: String) {
+        
+    }
+
     fun isKeywordSelectedInStream(keyword: String, streamName: String): Boolean {
         val customNewsStream: NewsStream = user.customStreams.first { stream -> stream.name == streamName }
 
