@@ -17,10 +17,13 @@
     <string name="password_confirmation_msg">The passwords do not match!</string>
     <string name="add_stream_dialog_title">Add custom stream</string>
     <string name="remove_stream_dialog_title">Remove custom stream</string>
+    <string name="add_keyword_dialog_title">Add custom keyword</string>
+    <string name="remove_keyword_dialog_title">Remove custom keyword</string>
     <string name="add_msg">Add</string>
     <string name="remove_msg">Remove</string>
     <string name="cancel_msg">Cancel</string>
     <string name="stream_name_type_in_message">Type in news stream name!</string>
+    <string name="keyword_type_in_message">Type in a keyword!</string>
 
     <string-array name="tab_titles">
         <item>All</item>

@@ -8,6 +8,7 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import uk.ac.swansea.alexandru.newsaggregator.model.NewsStream
 import uk.ac.swansea.alexandru.newsaggregator.model.User
+import java.lang.IllegalStateException
 
 class Database (private val authenticator: FirebaseAuth) {
     companion object {
@@ -80,9 +81,16 @@ class Database (private val authenticator: FirebaseAuth) {
     }
 
     fun addCustomNewsStream(name: String) {
-        val newNewsStream = NewsStream(name, mutableListOf<Int>())
-        user.customStreams.add(newNewsStream)
-        userReference.setValue(user)
+        val existingNewsStreams = user.customStreams.filter { it.name == name }
+        if(existingNewsStreams.size > 1) {
+            throw IllegalStateException("Multiple news streams with the same name!")
+        }
+
+        if(existingNewsStreams.isEmpty()) {
+            val newNewsStream = NewsStream(name, mutableListOf<Int>())
+            user.customStreams.add(newNewsStream)
+            userReference.setValue(user)
+        }
     }
 
     fun removeCustomNewsStream(deletedName: String) {
@@ -126,7 +134,23 @@ class Database (private val authenticator: FirebaseAuth) {
     }
 
     fun addCustomKeyword(keyword: String) {
-        
+        val existingKeywords = user.customKeywords.filter { it == keyword }
+        if(existingKeywords.size > 1) {
+            throw IllegalStateException("Multiple identical keywords!")
+        }
+
+        if(existingKeywords.isEmpty()) {
+            user.customKeywords.add(keyword)
+            userReference.setValue(user)
+        }
+    }
+
+    fun removeCustomKeyword(keyword: String) {
+        val hasChanged = user.customKeywords.removeIf { it == keyword }
+
+        if(hasChanged) {
+            userReference.setValue(user)
+        }
     }
 
     fun isKeywordSelectedInStream(keyword: String, streamName: String): Boolean {

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -14,7 +15,20 @@ import com.google.android.material.snackbar.Snackbar
 import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.R
 
-class KeywordButtonAdapter (val streamName: String) : RecyclerView.Adapter<KeywordButtonAdapter.ViewHolder>() {
+class KeywordButtonAdapter (val streamName: String, val parentFragment: Fragment) : RecyclerView.Adapter<KeywordButtonAdapter.ViewHolder>() {
+    val addClickListener = View.OnClickListener {view ->
+        onAddCustomKeyword(view as MaterialButton)}
+    val keywordClickListener = View.OnClickListener { view ->
+        val button = view as MaterialButton
+
+        if(Database.instance.isKeywordSelectedInStream(button.text.toString(), streamName)) {
+            unSelectKeywordButton(button)
+            Database.instance.unSelectKeyword(streamName, button.text.toString())
+        } else {
+            selectKeywordButton(button)
+            Database.instance.selectKeyword(streamName, button.text.toString())
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -26,8 +40,9 @@ class KeywordButtonAdapter (val streamName: String) : RecyclerView.Adapter<Keywo
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         if(position == 0) {
             holder.keywordButton.text = "+"
-            selectKeywordButton(holder.keywordButton)
+            setAddButtonLook(holder.keywordButton)
             holder.keywordButton.textSize = 50F
+            holder.keywordButton.setOnClickListener(addClickListener)
         } else {
             val keyword: String = Database.instance.getKeywordList()[position - 1]
 
@@ -46,33 +61,10 @@ class KeywordButtonAdapter (val streamName: String) : RecyclerView.Adapter<Keywo
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val keywordButton: MaterialButton = itemView.findViewById<MaterialButton>(R.id.keyword_button)
 
+
+
         init {
-            if(layoutPosition > 0) {
-                keywordButton.setOnClickListener() {view ->
-                    val button = view as MaterialButton
-
-                    if(Database.instance.isKeywordSelectedInStream(button.text.toString(), streamName)) {
-                        unSelectKeywordButton(button)
-                        Database.instance.unSelectKeyword(streamName, button.text.toString())
-                    } else {
-                        selectKeywordButton(button)
-                        Database.instance.selectKeyword(streamName, button.text.toString())
-                    }
-                }
-            } else {
-                keywordButton.setOnClickListener() {view ->
-                    val button = view as MaterialButton
-
-                    if(Database.instance.isKeywordSelectedInStream(button.text.toString(), streamName)) {
-                        unSelectKeywordButton(button)
-                        Database.instance.unSelectKeyword(streamName, button.text.toString())
-                    } else {
-                        selectKeywordButton(button)
-                        Database.instance.selectKeyword(streamName, button.text.toString())
-                    }
-                }
-            }
-
+            keywordButton.setOnClickListener(keywordClickListener)
         }
     }
 
@@ -89,11 +81,17 @@ class KeywordButtonAdapter (val streamName: String) : RecyclerView.Adapter<Keywo
         button.strokeWidth = 0
     }
 
-    private fun onAddCustomStream(button: MaterialButton) {
+    private fun setAddButtonLook(button: MaterialButton) {
+        button.setBackgroundColor(ContextCompat.getColor(button.context, R.color.colorSecondary))
+        button.setTextColor(ContextCompat.getColor(button.context, R.color.onSecondary))
+        button.strokeWidth = 0
+    }
+
+    private fun onAddCustomKeyword(button: MaterialButton) {
         val keywordInput = EditText(button.context)
 
         val dialog = MaterialAlertDialogBuilder(button.context!!).setTitle(
-            button.context.resources.getString(R.string.add_stream_dialog_title))
+            button.context.resources.getString(R.string.add_keyword_dialog_title))
             .setView(keywordInput)
             .setPositiveButton(button.context.resources.getString(R.string.add_msg), null)
             .setNeutralButton(button.context.resources.getString(R.string.cancel_msg)) { dialog, which -> }
@@ -102,10 +100,10 @@ class KeywordButtonAdapter (val streamName: String) : RecyclerView.Adapter<Keywo
         val addButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         addButton.setOnClickListener() {view ->
             if(keywordInput.text.toString() != "") {
-                Database.instance.addCustomNewsStream(keywordInput.text.toString())
+                Database.instance.addCustomKeyword(keywordInput.text.toString())
                 dialog.dismiss()
             } else {
-                Snackbar.make(this.view!!, resources.getString(R.string.stream_name_type_in_message),
+                Snackbar.make(parentFragment.view!!, view.context.getString(R.string.keyword_type_in_message),
                     Snackbar.LENGTH_SHORT).show()
             }
         }

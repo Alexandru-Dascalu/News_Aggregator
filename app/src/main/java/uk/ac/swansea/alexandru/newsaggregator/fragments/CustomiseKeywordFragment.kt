@@ -24,7 +24,7 @@ class CustomiseKeywordFragment(private val streamName: String) : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.keyword_buttons_recycler_view)
 
         recyclerView.layoutManager = GridLayoutManager(activity, 3)
-        recyclerView.adapter = KeywordButtonAdapter(streamName)
+        recyclerView.adapter = KeywordButtonAdapter(streamName, this)
     }
 
 }
