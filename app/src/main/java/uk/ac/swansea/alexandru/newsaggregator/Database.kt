@@ -101,30 +101,6 @@ class Database (private val authenticator: FirebaseAuth) {
         }
     }
 
-    fun getStreamKeywordConfiguration(customStreamName: String): Map<String, Boolean> {
-        val keywordConfiguration: MutableMap<String, Boolean> = mutableMapOf<String, Boolean>()
-
-        for(defaultTopic in defaultNewsTopics) {
-            keywordConfiguration[defaultTopic] = false
-        }
-
-        for(customKeyword in user.customKeywords) {
-            keywordConfiguration[customKeyword] = false
-        }
-
-        val customNewsStream: NewsStream = user.customStreams.first { stream -> stream.name == customStreamName }
-
-        for(keywordIndex in customNewsStream.keywords) {
-            if(keywordIndex < 0) {
-                keywordConfiguration[defaultNewsTopics[-keywordIndex - 1]] = true
-            } else {
-                keywordConfiguration[user.customKeywords[keywordIndex]] = true
-            }
-        }
-
-        return keywordConfiguration
-    }
-
     fun getKeywordList(): List<String> {
         val keywordList = mutableListOf<String>()
         keywordList.addAll(defaultNewsTopics)
