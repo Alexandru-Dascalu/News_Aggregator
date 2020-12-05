@@ -16,9 +16,10 @@ import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.R
 
 class KeywordButtonAdapter (val streamName: String, val parentFragment: Fragment) : RecyclerView.Adapter<KeywordButtonAdapter.ViewHolder>() {
-    val addClickListener = View.OnClickListener {view ->
-        onAddCustomKeyword(view as MaterialButton)}
-    val keywordClickListener = View.OnClickListener { view ->
+    private val addClickListener = View.OnClickListener {view -> onAddCustomKeyword(
+        view as MaterialButton)}
+
+     private val keywordClickListener = View.OnClickListener { view ->
         val button = view as MaterialButton
 
         if(Database.instance.isKeywordSelectedInStream(button.text.toString(), streamName)) {
@@ -60,8 +61,6 @@ class KeywordButtonAdapter (val streamName: String, val parentFragment: Fragment
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val keywordButton: MaterialButton = itemView.findViewById<MaterialButton>(R.id.keyword_button)
-
-
 
         init {
             keywordButton.setOnClickListener(keywordClickListener)
