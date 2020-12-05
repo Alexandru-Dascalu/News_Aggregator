@@ -1,9 +1,7 @@
 package uk.ac.swansea.alexandru.newsaggregator.adapters
 
 import android.app.AlertDialog
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
 import android.widget.EditText
 import androidx.core.content.ContextCompat
@@ -17,6 +15,8 @@ import uk.ac.swansea.alexandru.newsaggregator.R
 
 class KeywordButtonAdapter (private val streamName: String, private val parentFragment: Fragment) :
     RecyclerView.Adapter<KeywordButtonAdapter.ViewHolder>() {
+
+    private var actionMode: ActionMode? = null
 
     private val addClickListener = View.OnClickListener {view -> onAddCustomKeyword(
         view as MaterialButton)}
@@ -33,6 +33,33 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
         }
     }
 
+    private val actionModeCallback = object : ActionMode.Callback {
+        override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
+            val inflater: MenuInflater = mode.menuInflater
+            inflater.inflate(R.menu.keyword_delete_appbar_layout, menu)
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
+            return false
+        }
+
+        override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
+            return when (item.itemId) {
+                R.id.remove_keyword -> {
+                    Database.instance.removeCustomKeyword(actionMode!!.tag as String)
+                    mode.finish()
+                    true
+                }
+                else -> false
+            }
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode) {
+            actionMode = null
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val rowView = layoutInflater.inflate(R.layout.keyword_button_layout, parent, false)
@@ -46,6 +73,7 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
             setAddButtonLook(holder.keywordButton)
             holder.keywordButton.textSize = 50F
             holder.keywordButton.setOnClickListener(addClickListener)
+            holder.keywordButton.setOnLongClickListener(null)
         } else {
             val keyword: String = Database.instance.getKeywordList()[position - 1]
 
@@ -66,6 +94,20 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
 
         init {
             keywordButton.setOnClickListener(keywordClickListener)
+            keywordButton.setOnLongClickListener { view ->
+                when (actionMode) {
+                    null -> {
+                        actionMode = parentFragment.activity!!.startActionMode(actionModeCallback)
+                        actionMode!!.title = "${parentFragment.context!!.resources.getString(
+                            R.string.remove_keyword_msg)} ${keywordButton.text}"
+                        actionMode!!.tag = keywordButton.text.toString()
+
+                        view.isSelected = true
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
     }
 

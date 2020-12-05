@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.fragments.CustomiseKeywordFragment
-import uk.ac.swansea.alexandru.newsaggregator.model.NewsStream
-import uk.ac.swansea.alexandru.newsaggregator.model.User
 
 class NewsStreamNameAdapter (private val activity: AppCompatActivity) : RecyclerView.Adapter<NewsStreamNameAdapter.ViewHolder>() {
 

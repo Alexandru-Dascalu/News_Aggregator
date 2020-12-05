@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.adapters.KeywordButtonAdapter
-import uk.ac.swansea.alexandru.newsaggregator.model.NewsStream
-import uk.ac.swansea.alexandru.newsaggregator.model.User
 
 class CustomiseKeywordFragment(private val streamName: String) : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -26,5 +24,4 @@ class CustomiseKeywordFragment(private val streamName: String) : Fragment() {
         recyclerView.layoutManager = GridLayoutManager(activity, 3)
         recyclerView.adapter = KeywordButtonAdapter(streamName, this)
     }
-
 }
