@@ -156,11 +156,10 @@ class Database (private val authenticator: FirebaseAuth) {
     fun isKeywordSelectedInStream(keyword: String, streamName: String): Boolean {
         val customNewsStream: NewsStream = user.customStreams.first { stream -> stream.name == streamName }
 
-        var keywordIndex: Int
-        if(keyword in defaultNewsTopics) {
-            keywordIndex = -1 - defaultNewsTopics.indexOf(keyword)
+        val keywordIndex: Int = if(keyword in defaultNewsTopics) {
+            -1 - defaultNewsTopics.indexOf(keyword)
         } else {
-            keywordIndex = user.customKeywords.indexOf(keyword)
+            user.customKeywords.indexOf(keyword)
         }
 
         return keywordIndex in customNewsStream.keywords

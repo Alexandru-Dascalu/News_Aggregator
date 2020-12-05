@@ -15,7 +15,9 @@ import com.google.android.material.snackbar.Snackbar
 import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.R
 
-class KeywordButtonAdapter (val streamName: String, val parentFragment: Fragment) : RecyclerView.Adapter<KeywordButtonAdapter.ViewHolder>() {
+class KeywordButtonAdapter (private val streamName: String, private val parentFragment: Fragment) :
+    RecyclerView.Adapter<KeywordButtonAdapter.ViewHolder>() {
+
     private val addClickListener = View.OnClickListener {view -> onAddCustomKeyword(
         view as MaterialButton)}
 
