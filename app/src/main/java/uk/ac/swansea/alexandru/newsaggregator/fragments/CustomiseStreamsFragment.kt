@@ -50,7 +50,6 @@ class CustomiseStreamsFragment () : Fragment() {
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = NewsStreamNameAdapter(activity as AppCompatActivity)
-        recyclerView.addItemDecoration(DividerItemDecoration(context, LinearLayoutManager.HORIZONTAL))
 
         Log.i("customisefragment", "Customise fragment on view created")
     }
@@ -127,10 +126,15 @@ class CustomiseStreamsFragment () : Fragment() {
             .show()
 
         val addButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        addButton.setOnClickListener() {view ->
-            if(streamNameInput.text.toString() != "") {
-                Database.instance.removeCustomNewsStream(streamNameInput.text.toString())
-                dialog.dismiss()
+        addButton.setOnClickListener() { view ->
+            if (streamNameInput.text.toString() != "") {
+                if (streamNameInput.text.toString() == context!!.resources.getString(R.string.all)) {
+                    Snackbar.make(this.view!!, resources.getString(R.string.remove_all_stream_msg),
+                        Snackbar.LENGTH_LONG).show()
+                } else {
+                    Database.instance.removeCustomNewsStream(streamNameInput.text.toString())
+                    dialog.dismiss()
+                }
             } else {
                 Snackbar.make(this.view!!, resources.getString(R.string.stream_name_type_in_message),
                     Snackbar.LENGTH_SHORT).show()

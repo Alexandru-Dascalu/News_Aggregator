@@ -42,7 +42,6 @@ class Database (private val authenticator: FirebaseAuth) {
                 user = remoteUser
 
                 user.setCustomKeywords()
-                user.setCustomStreams()
                 user.customStreams.forEach { it.setKeywords() }
             }
         }
@@ -149,6 +148,14 @@ class Database (private val authenticator: FirebaseAuth) {
 
         val customStream = user.customStreams.first { stream -> stream.name == customStreamName }
         customStream.keywords.add(keywordIndex)
+
+        //check if the custom stream is not the All stream
+        if(user.customStreams[0] != customStream) {
+            //check if the keyword is not already added to the All stream
+            if(keywordIndex !in user.customStreams[0].keywords) {
+                user.customStreams[0].keywords.add(keywordIndex)
+            }
+        }
 
         userReference.setValue(user)
     }

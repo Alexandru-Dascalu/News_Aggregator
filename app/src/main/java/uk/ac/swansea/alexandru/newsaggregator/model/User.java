@@ -28,10 +28,4 @@ public class User {
             this.customKeywords = new LinkedList<>();
         }
     }
-
-    public void setCustomStreams() {
-        if(customStreams == null) {
-            this.customStreams = new LinkedList<>();
-        }
-    }
 }
