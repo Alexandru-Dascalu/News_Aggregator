@@ -12,10 +12,9 @@ class NewsStreamTabAdapter (activity: AppCompatActivity) : FragmentStateAdapter(
         when (position) {
             0 -> return AllFragment()
             1 -> return RecommendedFragment()
-            2 -> return WelshFragment()
         }
 
-        return AllFragment()
+        return WelshFragment()
     }
 
     override fun getItemCount(): Int {

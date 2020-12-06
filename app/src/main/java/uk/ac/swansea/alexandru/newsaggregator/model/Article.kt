@@ -1,6 +1,4 @@
-package uk.ac.swansea.alexandru.newsaggregator
-
-import java.io.FileDescriptor
+package uk.ac.swansea.alexandru.newsaggregator.model
 
 class Article {
     private var reason: String? = null

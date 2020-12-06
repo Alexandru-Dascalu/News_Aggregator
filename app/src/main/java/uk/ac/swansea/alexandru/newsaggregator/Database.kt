@@ -10,7 +10,7 @@ import uk.ac.swansea.alexandru.newsaggregator.model.NewsStream
 import uk.ac.swansea.alexandru.newsaggregator.model.User
 import java.lang.IllegalStateException
 
-class Database (private val authenticator: FirebaseAuth) {
+class Database (private val authenticator: FirebaseAuth, private val callback : FirebaseLoadedCallback) {
     companion object {
         lateinit var instance: Database
     }
@@ -22,11 +22,22 @@ class Database (private val authenticator: FirebaseAuth) {
     private lateinit var defaultNewsTopics : List<String>
     private lateinit var user : User
 
+    private var isUserInitialised = false
+    private var areTopicsInitialised = false
+
     private val newsTopicsListener =  object: ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             val topics = dataSnapshot.getValue<List<String>>()
             if(topics != null) {
                 defaultNewsTopics = topics
+
+                if(!isUserInitialised) {
+                    isUserInitialised = true
+
+                    if(isUserInitialised && areTopicsInitialised) {
+                        callback.onLoaded()
+                    }
+                }
             }
         }
 
@@ -43,6 +54,14 @@ class Database (private val authenticator: FirebaseAuth) {
 
                 user.setCustomKeywords()
                 user.customStreams.forEach { it.setKeywords() }
+
+                if(!areTopicsInitialised) {
+                    areTopicsInitialised = true
+
+                    if(isUserInitialised && areTopicsInitialised) {
+                        callback.onLoaded()
+                    }
+                }
             }
         }
 
@@ -69,7 +88,7 @@ class Database (private val authenticator: FirebaseAuth) {
         return user
     }
 
-    fun getUserCustomStreamNames(): List<String> {
+    fun getUserCustomStreamNames(): MutableList<String> {
         val namesList = mutableListOf<String>()
 
         for(stream in user.customStreams) {

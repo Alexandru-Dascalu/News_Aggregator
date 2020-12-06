@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsStreamTabAdapter
 
@@ -27,15 +28,17 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
         val viewPager = view.findViewById<ViewPager2>(R.id.stream_pager)
-        val tabTitles = resources.getStringArray(R.array.tab_titles)
+
+        val newsStreams = Database.instance.getUserCustomStreamNames()
+        newsStreams.add(context!!.resources.getString(R.string.recommended))
 
         viewPager.adapter = NewsStreamTabAdapter(activity as AppCompatActivity)
         TabLayoutMediator(tabLayout, viewPager,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 when (position) {
-                    0 -> tab.text = tabTitles[0]
-                    1 -> tab.text = tabTitles[1]
-                    2 -> tab.text = tabTitles[2]
+                    0 -> tab.text = newsStreams[0]
+                    1 -> tab.text = newsStreams[1]
+                    2 -> tab.text = newsStreams[2]
                 }
             }).attach()
 

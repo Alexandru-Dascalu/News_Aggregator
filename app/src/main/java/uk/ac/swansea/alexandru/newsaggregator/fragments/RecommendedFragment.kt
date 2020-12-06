@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import uk.ac.swansea.alexandru.newsaggregator.Article
+import uk.ac.swansea.alexandru.newsaggregator.model.Article
 import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsCardAdapter
 import uk.ac.swansea.alexandru.newsaggregator.R
 

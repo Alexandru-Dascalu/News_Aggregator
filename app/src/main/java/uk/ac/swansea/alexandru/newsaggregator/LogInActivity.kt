@@ -48,7 +48,7 @@ class LogInActivity : AppCompatActivity() {
 
     private fun checkLogIn(task: Task<AuthResult>, view: View) {
         if (task.isSuccessful) {
-            val mainActivityIntent = Intent(this, MainActivity::class.java)
+            val mainActivityIntent = Intent(this, LoadingActivity::class.java)
             startActivity(mainActivityIntent)
         } else {
             Snackbar.make(view, getString(R.string.wrong_login_msg), Snackbar.LENGTH_LONG).show()
