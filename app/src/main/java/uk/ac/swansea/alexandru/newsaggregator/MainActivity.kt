@@ -110,6 +110,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        if(authenticator.currentUser != null) {
+            authenticator.signOut()
+        }
+
         super.onDestroy()
         Log.i("me", "Main destroy")
     }

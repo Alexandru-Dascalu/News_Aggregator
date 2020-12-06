@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import uk.ac.swansea.alexandru.newsaggregator.model.NewsStream
+import uk.ac.swansea.alexandru.newsaggregator.model.User
 import uk.ac.swansea.alexandru.newsaggregator.utils.hideKeyboard
 
 class SignUpActivity : AppCompatActivity() {
@@ -41,9 +45,13 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun checkSignUp(view: View, signUpTask: Task<AuthResult>) {
         if(signUpTask.isSuccessful) {
-            val intent: Intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            this.finish()
+            addNewUserToRealtimeDatabase()
+
+            val emailAddress = findViewById<EditText>(R.id.email_input).text.toString()
+            val password = findViewById<EditText>(R.id.password_input).text.toString()
+
+            val task = authenticator.signInWithEmailAndPassword(emailAddress, password)
+            task.addOnCompleteListener { signInTask ->  onLogInAfterSignUp(signInTask)}
         } else {
             try {
                 throw signUpTask.exception!!
@@ -62,6 +70,26 @@ class SignUpActivity : AppCompatActivity() {
                 Log.e("error", "${e.message}")
                 hideKeyboard(view, this)
             }
+        }
+    }
+
+    private fun addNewUserToRealtimeDatabase() {
+        val userID: String = authenticator.currentUser!!.uid
+
+        val allStream: NewsStream = NewsStream(resources.getString(R.string.all), mutableListOf<Int>())
+        val newUser: User = User(mutableListOf<String>(), mutableListOf<NewsStream>(allStream))
+
+        val map = mutableMapOf<String, User>()
+        map.put(userID, newUser)
+
+        Firebase.database.reference.child("users").updateChildren(map as Map<String, Any>)
+    }
+
+    private fun onLogInAfterSignUp(task: Task<AuthResult>) {
+        if (task.isSuccessful) {
+            val intent: Intent = Intent(this, LoadingActivity::class.java)
+            startActivity(intent)
+            this.finish()
         }
     }
 }
