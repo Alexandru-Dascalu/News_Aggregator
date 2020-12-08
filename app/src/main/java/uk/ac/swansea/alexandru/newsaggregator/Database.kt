@@ -1,11 +1,13 @@
 package uk.ac.swansea.alexandru.newsaggregator
 
 import android.util.Log
+import com.dfl.newsapi.model.ArticleDto
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import com.google.gson.Gson
 import uk.ac.swansea.alexandru.newsaggregator.model.NewsStream
 import uk.ac.swansea.alexandru.newsaggregator.model.User
 import java.lang.IllegalStateException
@@ -31,8 +33,8 @@ class Database (private val authenticator: FirebaseAuth, private val callback : 
             if(topics != null) {
                 defaultNewsTopics = topics
 
-                if(!isUserInitialised) {
-                    isUserInitialised = true
+                if(!areTopicsInitialised) {
+                    areTopicsInitialised = true
 
                     if(isUserInitialised && areTopicsInitialised) {
                         callback.onLoaded()
@@ -53,10 +55,11 @@ class Database (private val authenticator: FirebaseAuth, private val callback : 
                 user = remoteUser
 
                 user.setCustomKeywords()
+                user.setBookmarks()
                 user.customStreams.forEach { it.setKeywords() }
 
-                if(!areTopicsInitialised) {
-                    areTopicsInitialised = true
+                if(!isUserInitialised) {
+                    isUserInitialised = true
 
                     if(isUserInitialised && areTopicsInitialised) {
                         callback.onLoaded()
@@ -78,10 +81,6 @@ class Database (private val authenticator: FirebaseAuth, private val callback : 
         userReference.addValueEventListener(userListener)
 
         instance = this
-    }
-
-    fun getDefaultNewsTopics() : List<String> {
-        return defaultNewsTopics
     }
 
     fun getUser() : User {
@@ -202,5 +201,26 @@ class Database (private val authenticator: FirebaseAuth, private val callback : 
         customStream.keywords.remove(keywordIndex)
 
         userReference.setValue(user)
+    }
+
+    fun addBookmark(article: ArticleDto) {
+        val gson = Gson()
+        user.bookmarks.add(gson.toJson(article))
+
+        userReference.child("bookmarks").setValue(user.bookmarks)
+    }
+
+    fun removeBookmarks(article: ArticleDto) {
+        val jsonArticle = Gson().toJson(article)
+
+        if(user.bookmarks.contains(jsonArticle)) {
+            user.bookmarks.remove(jsonArticle)
+
+            userReference.child("bookmarks").setValue(user.bookmarks)
+        }
+    }
+
+    fun isBookmarked(article: ArticleDto) : Boolean {
+        return Gson().toJson(article) in user.bookmarks
     }
 }

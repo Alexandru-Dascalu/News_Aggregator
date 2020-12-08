@@ -77,7 +77,7 @@ class SignUpActivity : AppCompatActivity() {
         val userID: String = authenticator.currentUser!!.uid
 
         val allStream: NewsStream = NewsStream(resources.getString(R.string.all), mutableListOf<Int>())
-        val newUser: User = User(mutableListOf<String>(), mutableListOf<NewsStream>(allStream))
+        val newUser: User = User(mutableListOf<String>(), mutableListOf<String>(), mutableListOf<NewsStream>(allStream))
 
         val map = mutableMapOf<String, User>()
         map.put(userID, newUser)

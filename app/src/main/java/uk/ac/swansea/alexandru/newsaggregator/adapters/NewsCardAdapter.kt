@@ -6,12 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.dfl.newsapi.model.ArticleDto
 import com.squareup.picasso.Picasso
+import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.FullArticleActivity
 import uk.ac.swansea.alexandru.newsaggregator.NewsApiCallback
 import uk.ac.swansea.alexandru.newsaggregator.R
@@ -41,7 +44,13 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
         holder.articleSource.text = article.source.name
         holder.publicationTime.text = "• ${getPublishTimeAgo(article.publishedAt)}"
 
-        holder.articleLink = article.url
+        if(Database.instance.isBookmarked(article)) {
+            selectBookmark(holder.bookmarkButton)
+        } else {
+            unSelectBookmark(holder.bookmarkButton)
+        }
+
+        holder.article = article
 
         Picasso.get().load(article.urlToImage).into(holder.articleImage)
 
@@ -59,18 +68,31 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
         val articleDescription: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.articleDescription)
         val articleSource: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.articleSource)
         val publicationTime: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.publicationTime)
+        val bookmarkButton: AppCompatImageButton = itemView.findViewById<AppCompatImageButton>(R.id.bookmarkImageButton)
 
         val cardView : CardView = itemView.findViewById<CardView>(R.id.card_view)
-        var articleLink: String? = null
+        var article: ArticleDto? = null
 
         init {
             cardView.setOnClickListener { view ->
-                if(articleLink != null) {
+                if(article!!.url != null) {
                     val displayArticleIntent = Intent(newsStreamFragment.context,
                         FullArticleActivity::class.java)
-                    displayArticleIntent.putExtra("LINK", articleLink)
+                    displayArticleIntent.putExtra("LINK", article!!.url)
 
                     newsStreamFragment.context!!.startActivity(displayArticleIntent)
+                }
+            }
+
+            bookmarkButton.setOnClickListener { view ->
+                val imageButton = view as ImageButton
+
+                if(Database.instance.isBookmarked(article!!)) {
+                    unSelectBookmark(imageButton)
+                    Database.instance.removeBookmarks(article!!)
+                } else {
+                    selectBookmark(imageButton)
+                    Database.instance.addBookmark(article!!)
                 }
             }
         }
@@ -102,5 +124,13 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
         ).toString()
 
         return timeAgo
+    }
+
+    private fun selectBookmark(imageButton: ImageButton) {
+        imageButton.setImageResource(R.drawable.ic_baseline_bookmark_24)
+    }
+
+    private fun unSelectBookmark(imageButton: ImageButton) {
+        imageButton.setImageResource(R.drawable.ic_baseline_bookmark_border_24)
     }
 }

@@ -72,5 +72,25 @@
             android:layout_marginTop="8dp"
             android:layout_marginEnd="2dp"
             android:layout_marginBottom="8dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/articleDescription"
+            android:layout_toEndOf="@+id/publicationTime">
+
+            <ImageButton
+                android:id="@+id/bookmarkImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?android:selectableItemBackground"
+                card_view:srcCompat="@drawable/ic_baseline_bookmark_border_24"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:gravity="end"/>
+
+        </LinearLayout>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
