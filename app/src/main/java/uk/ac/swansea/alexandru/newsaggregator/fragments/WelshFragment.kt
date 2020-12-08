@@ -23,8 +23,8 @@ class WelshFragment : Fragment() {
         val recyclerView = getView()?.findViewById<RecyclerView>(R.id.news_stream_recycler_view) as RecyclerView
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
-        val newsCardAdapter = NewsCardAdapter(articleList)
-        recyclerView.adapter = newsCardAdapter
+//        val newsCardAdapter = NewsCardAdapter(articleList)
+//        recyclerView.adapter = newsCardAdapter
     }
 
     private fun populateList(): ArrayList<Article> {

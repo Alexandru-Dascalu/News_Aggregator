@@ -24,8 +24,8 @@ class RecommendedFragment : Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.news_stream_recycler_view)
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
-        val newsCardAdapter = NewsCardAdapter(articleList)
-        recyclerView.adapter = newsCardAdapter
+//        val newsCardAdapter = NewsCardAdapter(articleList)
+//        recyclerView.adapter = newsCardAdapter
     }
 
     private fun populateList(): ArrayList<Article> {

@@ -1,17 +1,31 @@
 package uk.ac.swansea.alexandru.newsaggregator.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.dfl.newsapi.NewsApiRepository
+import com.dfl.newsapi.enums.Language
+import com.dfl.newsapi.enums.SortBy
+import com.dfl.newsapi.model.ArticleDto
+import io.reactivex.schedulers.Schedulers
 import uk.ac.swansea.alexandru.newsaggregator.model.Article
 import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsCardAdapter
 import uk.ac.swansea.alexandru.newsaggregator.R
 
 class AllFragment : Fragment() {
+    private val newsApi: NewsApiRepository = NewsApiRepository(activity!!.getString(R.string.news_api_key))
+    private var newsCardAdapter = NewsCardAdapter(listOf<ArticleDto>(), this)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getArticles()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val newsStreamRootView = inflater.inflate(R.layout.news_stream_fragment, container, false)
 
@@ -20,12 +34,32 @@ class AllFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val articleList = populateList()
+        getArticles()
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.news_stream_recycler_view)
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
-        val newsCardAdapter = NewsCardAdapter(articleList)
         recyclerView.adapter = newsCardAdapter
+    }
+
+    private fun getArticles() {
+        val articles = mutableListOf<ArticleDto>()
+
+        newsApi.getEverything(q = "covid OR bitcoin", domains = null, language = Language.EN, sortBy = SortBy.POPULARITY, pageSize = 20, page = 1)
+            .subscribeOn(Schedulers.io())
+            .toFlowable()
+            .flatMapIterable { articles -> articles.articles }
+            .subscribe(
+                //onNext
+                { article -> articles.add(article) },
+                //onError
+                { t -> Log.d("geLotEverything error", t.message!!) },
+                //onComplete
+                {
+                    articles.shuffle()
+                    newsCardAdapter.onGetArticles(articles)
+                }
+            )
     }
 
     private fun populateList(): ArrayList<Article> {
