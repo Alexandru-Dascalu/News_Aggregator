@@ -1,5 +1,6 @@
 package uk.ac.swansea.alexandru.newsaggregator.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,8 +19,13 @@ import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsCardAdapter
 import uk.ac.swansea.alexandru.newsaggregator.R
 
 class AllFragment : Fragment() {
-    private val newsApi: NewsApiRepository = NewsApiRepository(activity!!.getString(R.string.news_api_key))
+    private lateinit var newsApi: NewsApiRepository
     private var newsCardAdapter = NewsCardAdapter(listOf<ArticleDto>(), this)
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        newsApi = NewsApiRepository(context.getString(R.string.news_api_key))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

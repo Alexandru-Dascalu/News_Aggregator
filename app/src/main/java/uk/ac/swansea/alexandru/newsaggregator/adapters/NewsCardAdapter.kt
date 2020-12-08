@@ -8,6 +8,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
 import com.dfl.newsapi.model.ArticleDto
+import com.squareup.picasso.Picasso
 import uk.ac.swansea.alexandru.newsaggregator.NewsApiCallback
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.fragments.AllFragment
@@ -25,11 +26,12 @@ class NewsCardAdapter (private var articleList: List<ArticleDto>, private val ne
         val article = articleList[position]
 
         holder.displayReason.text = "blah"
-        //holder.articleImage.setImageResource(null)
         holder.articleTitle.text = article.title
         holder.articleDescription.text = article.description
         holder.articleSource.text = article.source.name
         holder.publicationTime.text = article.publishedAt
+
+        Picasso.get().load(article.urlToImage).into(holder.articleImage)
 
         Log.i("news card adapter", "view holder bound")
     }
