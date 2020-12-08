@@ -1,5 +1,6 @@
 package uk.ac.swansea.alexandru.newsaggregator.adapters
 
+import android.content.Intent
 import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,9 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.dfl.newsapi.model.ArticleDto
 import com.squareup.picasso.Picasso
+import uk.ac.swansea.alexandru.newsaggregator.FullArticleActivity
 import uk.ac.swansea.alexandru.newsaggregator.NewsApiCallback
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.fragments.NewsStreamFragment
@@ -38,6 +41,8 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
         holder.articleSource.text = article.source.name
         holder.publicationTime.text = "• ${getPublishTimeAgo(article.publishedAt)}"
 
+        holder.articleLink = article.url
+
         Picasso.get().load(article.urlToImage).into(holder.articleImage)
 
         Log.i("news card adapter", "view holder bound")
@@ -54,6 +59,21 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
         val articleDescription: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.articleDescription)
         val articleSource: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.articleSource)
         val publicationTime: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.publicationTime)
+
+        val cardView : CardView = itemView.findViewById<CardView>(R.id.card_view)
+        var articleLink: String? = null
+
+        init {
+            cardView.setOnClickListener { view ->
+                if(articleLink != null) {
+                    val displayArticleIntent = Intent(newsStreamFragment.context,
+                        FullArticleActivity::class.java)
+                    displayArticleIntent.putExtra("LINK", articleLink)
+
+                    newsStreamFragment.context!!.startActivity(displayArticleIntent)
+                }
+            }
+        }
     }
 
     override fun onGetArticles(articles: List<ArticleDto>) {
