@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.dfl.newsapi.NewsApiRepository
 import com.dfl.newsapi.enums.Language
 import com.dfl.newsapi.enums.SortBy
@@ -49,6 +50,11 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
         recyclerView.adapter = newsCardAdapter
+
+        val swipeContainer = view.findViewById<SwipeRefreshLayout>(R.id.swipeLayout)
+        swipeContainer.setOnRefreshListener {
+            subscribeForArticles()
+        }
     }
 
      fun subscribeForArticles() {
