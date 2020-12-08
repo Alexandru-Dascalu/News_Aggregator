@@ -32,7 +32,7 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getArticles()
+        subscribeForArticles()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,7 +43,7 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val articleList = populateList()
-        getArticles()
+        subscribeForArticles()
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.news_stream_recycler_view)
         val layoutManager = LinearLayoutManager(context)
@@ -51,7 +51,7 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
         recyclerView.adapter = newsCardAdapter
     }
 
-    private fun getArticles() {
+     fun subscribeForArticles() {
         val articles = mutableListOf<ArticleDto>()
 
         newsApi.getEverything(q = getKeywordQuery(), domains = null, language = Language.EN, sortBy = SortBy.RELEVANCY, pageSize = 20, page = 1)

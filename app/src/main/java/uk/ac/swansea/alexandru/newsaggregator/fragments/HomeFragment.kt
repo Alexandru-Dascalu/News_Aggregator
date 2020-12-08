@@ -35,11 +35,7 @@ class HomeFragment : Fragment() {
         viewPager.adapter = NewsStreamTabAdapter(activity as AppCompatActivity, newsStreams)
         TabLayoutMediator(tabLayout, viewPager,
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
-                when (position) {
-                    0 -> tab.text = newsStreams[0]
-                    1 -> if (newsStreams.size > 1) tab.text = newsStreams[1]
-                    2 -> if (newsStreams.size > 2) tab.text = newsStreams[2]
-                }
+                tab.text = newsStreams[position]
             }).attach()
 
         Log.i("homefragment", "Home fragment on view created")

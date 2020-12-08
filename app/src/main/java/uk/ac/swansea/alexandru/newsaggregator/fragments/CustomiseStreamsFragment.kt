@@ -12,17 +12,13 @@ import android.widget.EditText
 import android.widget.ImageButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import uk.ac.swansea.alexandru.newsaggregator.Database
-import uk.ac.swansea.alexandru.newsaggregator.MainActivity
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsStreamNameAdapter
-import uk.ac.swansea.alexandru.newsaggregator.model.User
-import uk.ac.swansea.alexandru.newsaggregator.utils.hideKeyboard
 
 class CustomiseStreamsFragment () : Fragment() {
 

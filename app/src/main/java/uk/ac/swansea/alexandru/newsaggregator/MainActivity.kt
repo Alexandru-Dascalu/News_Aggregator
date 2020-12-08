@@ -20,15 +20,16 @@ import uk.ac.swansea.alexandru.newsaggregator.model.User
 
 class MainActivity : AppCompatActivity() {
     private val authenticator = FirebaseAuth.getInstance()
+    private val homeFragment = HomeFragment()
 
     private val navigationBarItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.home_button -> {
-                addHomeFragment()
+                replaceFragment(homeFragment)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.customise_button -> {
-                addCustomiseFragment()
+                replaceFragment(CustomiseStreamsFragment())
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        addHomeFragment()
+        replaceFragment(homeFragment)
         Log.i("me", "activity is created")
     }
 
@@ -67,14 +68,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    private fun addHomeFragment() {
-        replaceFragment(HomeFragment())
-    }
-
-    private fun addCustomiseFragment() {
-        replaceFragment(CustomiseStreamsFragment())
     }
 
     private fun replaceFragment(newFragment: Fragment) {
