@@ -64,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/articleDescription"
-            android:layout_margin="2dp" />
+            android:layout_margin="5dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/publicationTime"
@@ -72,6 +72,9 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/articleDescription"
             android:layout_toEndOf="@+id/articleSource"
-            android:padding="2dp" />
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginBottom="5dp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -127,6 +127,19 @@ class Database (private val authenticator: FirebaseAuth, private val callback : 
         return keywordList
     }
 
+    fun getKeywordsForStream(newsStreamName: String) : List<String> {
+        val allKeywords = getKeywordList()
+        val streamKeywords = mutableListOf<String>()
+
+        for(keyword in allKeywords) {
+            if(isKeywordSelectedInStream(keyword, newsStreamName)) {
+                streamKeywords.add(keyword)
+            }
+        }
+
+        return streamKeywords
+    }
+
     fun addCustomKeyword(keyword: String) {
         val existingKeywords = user.customKeywords.filter { it == keyword }
         if(existingKeywords.size > 1) {

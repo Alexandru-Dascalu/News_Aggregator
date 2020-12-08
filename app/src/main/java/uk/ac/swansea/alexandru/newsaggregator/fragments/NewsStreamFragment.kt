@@ -14,11 +14,13 @@ import com.dfl.newsapi.enums.Language
 import com.dfl.newsapi.enums.SortBy
 import com.dfl.newsapi.model.ArticleDto
 import io.reactivex.schedulers.Schedulers
+import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.model.Article
 import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsCardAdapter
 import uk.ac.swansea.alexandru.newsaggregator.R
+import java.lang.StringBuilder
 
-class AllFragment : Fragment() {
+class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
     private lateinit var newsApi: NewsApiRepository
     private lateinit var newsCardAdapter : NewsCardAdapter
 
@@ -52,7 +54,7 @@ class AllFragment : Fragment() {
     private fun getArticles() {
         val articles = mutableListOf<ArticleDto>()
 
-        newsApi.getEverything(q = "covid OR bitcoin", domains = null, language = Language.EN, sortBy = SortBy.POPULARITY, pageSize = 20, page = 1)
+        newsApi.getEverything(q = getKeywordQuery(), domains = null, language = Language.EN, sortBy = SortBy.RELEVANCY, pageSize = 20, page = 1)
             .subscribeOn(Schedulers.io())
             .toFlowable()
             .flatMapIterable { articles -> articles.articles }
@@ -67,6 +69,24 @@ class AllFragment : Fragment() {
                     newsCardAdapter.onGetArticles(articles)
                 }
             )
+    }
+
+    private fun getKeywordQuery(): String {
+        val streamKeywords = Database.instance.getKeywordsForStream(newsStreamName)
+        val builder = StringBuilder()
+
+        builder.append("\"")
+        builder.append(streamKeywords[0])
+        builder.append("\"")
+
+        for(i in 1 until streamKeywords.size) {
+            builder.append(" OR ")
+            builder.append("\"")
+            builder.append(streamKeywords[i])
+            builder.append("\"")
+        }
+
+        return builder.toString()
     }
 
     private fun populateList(): ArrayList<Article> {

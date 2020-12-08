@@ -47,7 +47,7 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
         override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
             return when (item.itemId) {
                 R.id.remove_keyword -> {
-                    Database.instance.removeCustomKeyword(actionMode!!.tag as String)
+                    Database.instance.removeCustomKeyword(actionMode!!.tag.toString().decapitalize())
                     mode.finish()
                     true
                 }
@@ -143,7 +143,7 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
         val addButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         addButton.setOnClickListener() {view ->
             if(keywordInput.text.toString() != "") {
-                Database.instance.addCustomKeyword(keywordInput.text.toString())
+                Database.instance.addCustomKeyword(keywordInput.text.toString().decapitalize())
                 dialog.dismiss()
             } else {
                 Snackbar.make(parentFragment.view!!, view.context.getString(R.string.keyword_type_in_message),

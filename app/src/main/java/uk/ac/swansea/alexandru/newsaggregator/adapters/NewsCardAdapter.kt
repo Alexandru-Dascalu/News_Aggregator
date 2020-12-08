@@ -12,15 +12,15 @@ import com.dfl.newsapi.model.ArticleDto
 import com.squareup.picasso.Picasso
 import uk.ac.swansea.alexandru.newsaggregator.NewsApiCallback
 import uk.ac.swansea.alexandru.newsaggregator.R
-import uk.ac.swansea.alexandru.newsaggregator.fragments.AllFragment
+import uk.ac.swansea.alexandru.newsaggregator.fragments.NewsStreamFragment
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 
-class NewsCardAdapter(
-    private var articleList: List<ArticleDto>,
-    private val newsStreamFragment: AllFragment
-) : RecyclerView.Adapter<NewsCardAdapter.ViewHolder>(), NewsApiCallback {
+class NewsCardAdapter(private var articleList: List<ArticleDto>,
+                      private val newsStreamFragment: NewsStreamFragment)
+    : RecyclerView.Adapter<NewsCardAdapter.ViewHolder>(), NewsApiCallback {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.article_layout, parent, false)
@@ -36,7 +36,7 @@ class NewsCardAdapter(
         holder.articleTitle.text = article.title
         holder.articleDescription.text = article.description
         holder.articleSource.text = article.source.name
-        holder.publicationTime.text = getPublishTimeAgo(article.publishedAt)
+        holder.publicationTime.text = "• ${getPublishTimeAgo(article.publishedAt)}"
 
         Picasso.get().load(article.urlToImage).into(holder.articleImage)
 
