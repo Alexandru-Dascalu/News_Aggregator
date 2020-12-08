@@ -17,19 +17,14 @@
     <RelativeLayout
         android:id="@+id/layout_inside_card"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="5dp"
-        android:paddingStart="5dp"
-        android:paddingTop="5dp"
-        android:paddingEnd="5dp"
-        android:paddingBottom="5dp">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/displayReason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_margin="5dp" />
+            android:layout_margin="8dp" />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/articleImage"
@@ -37,7 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/displayReason"
             android:layout_centerInParent="true"
-            android:layout_margin="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY" />
 
@@ -47,8 +43,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/articleImage"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="5dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
             android:layout_marginBottom="5dp"
             android:textSize="18sp" />
 
@@ -57,14 +53,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/articleTitle"
-            android:layout_margin="5dp" />
+            android:layout_margin="8dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/articleSource"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/articleDescription"
-            android:layout_margin="5dp" />
+            android:layout_margin="8dp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/publicationTime"
@@ -73,8 +69,8 @@
             android:layout_below="@+id/articleDescription"
             android:layout_toEndOf="@+id/articleSource"
             android:layout_marginStart="2dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="2dp"
-            android:layout_marginBottom="5dp" />
+            android:layout_marginBottom="8dp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
