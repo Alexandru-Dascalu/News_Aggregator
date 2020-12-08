@@ -20,11 +20,12 @@ import uk.ac.swansea.alexandru.newsaggregator.R
 
 class AllFragment : Fragment() {
     private lateinit var newsApi: NewsApiRepository
-    private var newsCardAdapter = NewsCardAdapter(listOf<ArticleDto>(), this)
+    private lateinit var newsCardAdapter : NewsCardAdapter
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         newsApi = NewsApiRepository(context.getString(R.string.news_api_key))
+        newsCardAdapter = NewsCardAdapter(listOf<ArticleDto>(), this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
