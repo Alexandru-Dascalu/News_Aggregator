@@ -1,5 +1,6 @@
 package uk.ac.swansea.alexandru.newsaggregator.adapters
 
+import android.text.format.DateUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,8 +13,14 @@ import com.squareup.picasso.Picasso
 import uk.ac.swansea.alexandru.newsaggregator.NewsApiCallback
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.fragments.AllFragment
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
 
-class NewsCardAdapter (private var articleList: List<ArticleDto>, private val newsStreamFragment: AllFragment) : RecyclerView.Adapter<NewsCardAdapter.ViewHolder>(), NewsApiCallback {
+class NewsCardAdapter(
+    private var articleList: List<ArticleDto>,
+    private val newsStreamFragment: AllFragment
+) : RecyclerView.Adapter<NewsCardAdapter.ViewHolder>(), NewsApiCallback {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.article_layout, parent, false)
@@ -29,7 +36,7 @@ class NewsCardAdapter (private var articleList: List<ArticleDto>, private val ne
         holder.articleTitle.text = article.title
         holder.articleDescription.text = article.description
         holder.articleSource.text = article.source.name
-        holder.publicationTime.text = article.publishedAt
+        holder.publicationTime.text = getPublishTimeAgo(article.publishedAt)
 
         Picasso.get().load(article.urlToImage).into(holder.articleImage)
 
@@ -54,5 +61,26 @@ class NewsCardAdapter (private var articleList: List<ArticleDto>, private val ne
             articleList = articles
             this.notifyDataSetChanged()
         }
+    }
+
+    /**
+     * Gets a nicely string describing when the article was published. If it was published less
+     * than 7 days ago, the string will be 'x days ago' or 'x minutes ago'. It might be in another
+     * language, depending on your Locale. If the article is more than 7 days old, it will display
+     * the date, such 24 nov, 2020 .
+     * @param publishingTime The publishing time of the article, in the yyyy-MM-dd'T'HH:mm:ss'Z' format.
+     * @return a string representing the publishing time relative to the current time.
+     */
+    private fun getPublishTimeAgo(publishingTime: String) : String {
+        val utcDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+        val publishTimeDate: Date = utcDateFormat.parse(publishingTime)!!
+
+        val timeAgo: String = DateUtils.getRelativeTimeSpanString(
+            publishTimeDate.time,
+            Calendar.getInstance().timeInMillis,
+            DateUtils.MINUTE_IN_MILLIS
+        ).toString()
+
+        return timeAgo
     }
 }
