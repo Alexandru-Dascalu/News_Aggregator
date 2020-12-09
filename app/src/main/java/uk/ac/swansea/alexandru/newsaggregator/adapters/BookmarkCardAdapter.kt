@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.dfl.newsapi.model.ArticleDto
 import com.squareup.picasso.Picasso
+import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.FullArticleActivity
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.fragments.BookmarksFragment
@@ -30,7 +31,13 @@ class BookmarkCardAdapter(private var articleList: List<ArticleDto>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = articleList[position]
 
-        holder.displayReason.text = "blah"
+        val reason = Database.instance.getKeywordForArticle(article)
+        if(reason != "") {
+            holder.displayReason.text = "Because you follow $reason"
+        } else {
+            holder.displayReason.text = ""
+        }
+
         holder.articleTitle.text = article.title
         holder.articleDescription.text = article.description
         holder.articleSource.text = article.source.name

@@ -70,7 +70,9 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
                      //onNext
                      { article -> articles.add(article) },
                      //onError
-                     { t -> Log.d("news api error", t.message!!) },
+                     {
+                             t -> Log.d("news api error", t.message!!)
+                     },
                      //onComplete
                      {
                          articles.shuffle()
