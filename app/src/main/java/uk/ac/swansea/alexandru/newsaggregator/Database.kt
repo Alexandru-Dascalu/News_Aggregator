@@ -1,5 +1,6 @@
 package uk.ac.swansea.alexandru.newsaggregator
 
+import android.content.res.Resources
 import android.util.Log
 import com.dfl.newsapi.model.ArticleDto
 import com.google.firebase.auth.FirebaseAuth
@@ -127,16 +128,20 @@ class Database (private val authenticator: FirebaseAuth, private val callback : 
     }
 
     fun getKeywordsForStream(newsStreamName: String) : List<String> {
-        val allKeywords = getKeywordList()
-        val streamKeywords = mutableListOf<String>()
+        if(newsStreamName == "Recommended") {
+            return getKeywordsInBookmarks()
+        } else {
+            val allKeywords = getKeywordList()
+            val streamKeywords = mutableListOf<String>()
 
-        for(keyword in allKeywords) {
-            if(isKeywordSelectedInStream(keyword, newsStreamName)) {
-                streamKeywords.add(keyword)
+            for(keyword in allKeywords) {
+                if(isKeywordSelectedInStream(keyword, newsStreamName)) {
+                    streamKeywords.add(keyword)
+                }
             }
-        }
 
-        return streamKeywords
+            return streamKeywords
+        }
     }
 
     fun addCustomKeyword(keyword: String) {
@@ -234,5 +239,35 @@ class Database (private val authenticator: FirebaseAuth, private val callback : 
         }
 
         return bookmarks
+    }
+
+    fun getKeywordsInBookmarks() : List<String> {
+        val recommendedKeywordSet : MutableSet<String> = mutableSetOf<String>()
+        val allKeywordList : List<String> = getKeywordList()
+        val bookmarkedArticles = getBookmarks()
+
+        for(article in bookmarkedArticles) {
+            val titleWords = article.title.split(" ")
+            for(word in titleWords) {
+                for(keyword in allKeywordList) {
+                    if(keyword.equals(word, true)) {
+                        recommendedKeywordSet.add(word)
+                        break
+                    }
+                }
+            }
+
+            val descriptionWords = article.description.split(" ")
+            for(word in descriptionWords) {
+                for(keyword in allKeywordList) {
+                    if(keyword.equals(word, true)) {
+                        recommendedKeywordSet.add(word)
+                        break
+                    }
+                }
+            }
+        }
+
+        return recommendedKeywordSet.toList()
     }
 }

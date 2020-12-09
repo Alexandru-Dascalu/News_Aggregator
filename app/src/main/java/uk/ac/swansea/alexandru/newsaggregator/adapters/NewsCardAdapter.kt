@@ -19,6 +19,7 @@ import uk.ac.swansea.alexandru.newsaggregator.FullArticleActivity
 import uk.ac.swansea.alexandru.newsaggregator.NewsApiCallback
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.fragments.NewsStreamFragment
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -114,16 +115,20 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
      * @return a string representing the publishing time relative to the current time.
      */
     private fun getPublishTimeAgo(publishingTime: String) : String {
-        val utcDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-        val publishTimeDate: Date = utcDateFormat.parse(publishingTime)!!
+        try {
+            val utcDateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
+            val publishTimeDate: Date = utcDateFormat.parse(publishingTime)!!
 
-        val timeAgo: String = DateUtils.getRelativeTimeSpanString(
-            publishTimeDate.time,
-            Calendar.getInstance().timeInMillis,
-            DateUtils.MINUTE_IN_MILLIS
-        ).toString()
+            val timeAgo: String = DateUtils.getRelativeTimeSpanString(
+                publishTimeDate.time,
+                Calendar.getInstance().timeInMillis,
+                DateUtils.MINUTE_IN_MILLIS
+            ).toString()
 
-        return timeAgo
+            return timeAgo
+        } catch (e: ParseException) {
+            return publishingTime
+        }
     }
 
     private fun selectBookmark(imageButton: ImageButton) {
