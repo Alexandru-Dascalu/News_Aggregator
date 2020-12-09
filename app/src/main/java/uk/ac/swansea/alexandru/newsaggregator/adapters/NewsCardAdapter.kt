@@ -38,8 +38,14 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = articleList[position]
+        val reason = Database.instance.getKeywordForArticle(article)
 
-        holder.displayReason.text = "blah"
+        if(reason != "") {
+            holder.displayReason.text = "Because you follow $reason"
+        } else {
+            holder.displayReason.text = ""
+        }
+
         holder.articleTitle.text = article.title
         holder.articleDescription.text = article.description
         holder.articleSource.text = article.source.name

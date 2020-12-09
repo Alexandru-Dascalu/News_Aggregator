@@ -75,8 +75,11 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
                      {
                          articles.shuffle()
                          if(swipeLayout != null) {
-                             swipeLayout.isRefreshing = false
+                             activity!!.runOnUiThread {
+                                 swipeLayout.isRefreshing = false
+                             }
                          }
+
                          newsCardAdapter.onGetArticles(articles)
                      }
                  )
@@ -89,12 +92,16 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
                      //onNext
                      { article -> articles.add(article) },
                      //onError
-                     { t -> Log.d("news api error", t.message!!) },
+                     {
+                             t -> Log.d("news api error", t.message!!)
+                     },
                      //onComplete
                      {
                          articles.shuffle()
                          if(swipeLayout != null) {
-                             swipeLayout.isRefreshing = false
+                             activity!!.runOnUiThread {
+                                 swipeLayout.isRefreshing = false
+                             }
                          }
                          newsCardAdapter.onGetArticles(articles)
                      }

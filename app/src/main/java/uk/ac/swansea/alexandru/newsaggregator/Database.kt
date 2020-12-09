@@ -252,7 +252,6 @@ class Database (private val authenticator: FirebaseAuth, private val callback : 
                 for(keyword in allKeywordList) {
                     if(keyword.equals(word, true)) {
                         recommendedKeywordSet.add(word)
-                        break
                     }
                 }
             }
@@ -262,12 +261,35 @@ class Database (private val authenticator: FirebaseAuth, private val callback : 
                 for(keyword in allKeywordList) {
                     if(keyword.equals(word, true)) {
                         recommendedKeywordSet.add(word)
-                        break
                     }
                 }
             }
         }
 
         return recommendedKeywordSet.toList()
+    }
+
+    fun getKeywordForArticle(article: ArticleDto) : String {
+        val allKeywordList : List<String> = getKeywordList()
+
+        val titleWords = article.title.split(" ")
+        for(word in titleWords) {
+            for(keyword in allKeywordList) {
+                if(keyword.equals(word, true)) {
+                    return keyword
+                }
+            }
+        }
+
+        val descriptionWords = article.description.split(" ")
+        for(word in descriptionWords) {
+            for(keyword in allKeywordList) {
+                if(keyword.equals(word, true)) {
+                    return keyword
+                }
+            }
+        }
+
+        return ""
     }
 }
