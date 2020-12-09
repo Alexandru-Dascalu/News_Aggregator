@@ -106,9 +106,11 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
     }
 
     override fun onGetArticles(articles: List<ArticleDto>) {
-        newsStreamFragment.activity!!.runOnUiThread {
-            articleList = articles
-            this.notifyDataSetChanged()
+        if(newsStreamFragment.activity != null) {
+            newsStreamFragment.activity!!.runOnUiThread {
+                articleList = articles
+                this.notifyDataSetChanged()
+            }
         }
     }
 
