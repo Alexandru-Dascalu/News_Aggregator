@@ -21,7 +21,7 @@ import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsStreamNameAdapter
 
 class CustomiseStreamsFragment () : Fragment() {
-
+    private lateinit var recyclerView: RecyclerView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.i("customisefragment", "Customise fragment on create")
@@ -42,7 +42,7 @@ class CustomiseStreamsFragment () : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-       val recyclerView = view.findViewById<RecyclerView>(R.id.news_stream_names_recycler_view)
+       recyclerView = view.findViewById<RecyclerView>(R.id.news_stream_names_recycler_view)
 
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = NewsStreamNameAdapter(activity as AppCompatActivity)
@@ -103,6 +103,7 @@ class CustomiseStreamsFragment () : Fragment() {
         addButton.setOnClickListener() {view ->
             if(streamNameInput.text.toString() != "") {
                 Database.instance.addCustomNewsStream(streamNameInput.text.toString())
+                recyclerView.adapter!!.notifyDataSetChanged()
                 dialog.dismiss()
             } else {
                 Snackbar.make(this.view!!, resources.getString(R.string.stream_name_type_in_message),
@@ -129,6 +130,7 @@ class CustomiseStreamsFragment () : Fragment() {
                         Snackbar.LENGTH_LONG).show()
                 } else {
                     Database.instance.removeCustomNewsStream(streamNameInput.text.toString())
+                    recyclerView.adapter!!.notifyDataSetChanged()
                     dialog.dismiss()
                 }
             } else {

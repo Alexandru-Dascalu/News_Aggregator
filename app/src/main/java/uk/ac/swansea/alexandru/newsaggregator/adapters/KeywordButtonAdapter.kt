@@ -48,6 +48,7 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
             return when (item.itemId) {
                 R.id.remove_keyword -> {
                     Database.instance.removeCustomKeyword(actionMode!!.tag.toString().decapitalize())
+                    notifyDataSetChanged()
                     mode.finish()
                     true
                 }
@@ -144,6 +145,7 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
         addButton.setOnClickListener() {view ->
             if(keywordInput.text.toString() != "") {
                 Database.instance.addCustomKeyword(keywordInput.text.toString().decapitalize())
+                notifyDataSetChanged()
                 dialog.dismiss()
             } else {
                 Snackbar.make(parentFragment.view!!, view.context.getString(R.string.keyword_type_in_message),

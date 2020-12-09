@@ -26,10 +26,8 @@ class LogInActivity : AppCompatActivity() {
     }
 
     fun logIn(view: View) {
-//        val emailAddress = findViewById<EditText>(R.id.email_input).text.toString()
-//        val password = findViewById<EditText>(R.id.password_input).text.toString()
-        val emailAddress = "alexandru.dascalu100@gmail.com"
-        val password = "test12"
+        val emailAddress = findViewById<EditText>(R.id.email_input).text.toString()
+        val password = findViewById<EditText>(R.id.password_input).text.toString()
 
         if(emailAddress != "" && password != "") {
             val task = authenticator.signInWithEmailAndPassword(emailAddress, password)
