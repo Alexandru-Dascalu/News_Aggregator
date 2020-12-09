@@ -13,6 +13,7 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
+import uk.ac.swansea.alexandru.newsaggregator.fragments.BookmarksFragment
 import uk.ac.swansea.alexandru.newsaggregator.fragments.CustomiseStreamsFragment
 import uk.ac.swansea.alexandru.newsaggregator.fragments.HomeFragment
 import uk.ac.swansea.alexandru.newsaggregator.model.NewsStream
@@ -30,6 +31,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.customise_button -> {
                 replaceFragment(CustomiseStreamsFragment())
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.bookmarks_button -> {
+                replaceFragment(BookmarksFragment())
                 return@OnNavigationItemSelectedListener true
             }
         }

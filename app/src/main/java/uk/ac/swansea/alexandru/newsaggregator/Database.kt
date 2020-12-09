@@ -223,4 +223,16 @@ class Database (private val authenticator: FirebaseAuth, private val callback : 
     fun isBookmarked(article: ArticleDto) : Boolean {
         return Gson().toJson(article) in user.bookmarks
     }
+
+    fun getBookmarks() : List<ArticleDto> {
+        val bookmarks = mutableListOf<ArticleDto>()
+        val gson = Gson()
+
+        for(jsonBookmark in user.bookmarks) {
+            val article : ArticleDto = gson.fromJson(jsonBookmark, ArticleDto::class.java)
+            bookmarks.add(article)
+        }
+
+        return bookmarks
+    }
 }
