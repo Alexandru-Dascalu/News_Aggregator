@@ -10,14 +10,9 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
 import uk.ac.swansea.alexandru.newsaggregator.fragments.BookmarksFragment
 import uk.ac.swansea.alexandru.newsaggregator.fragments.CustomiseStreamsFragment
 import uk.ac.swansea.alexandru.newsaggregator.fragments.HomeFragment
-import uk.ac.swansea.alexandru.newsaggregator.model.NewsStream
-import uk.ac.swansea.alexandru.newsaggregator.model.User
 
 class MainActivity : AppCompatActivity() {
     private val authenticator = FirebaseAuth.getInstance()
