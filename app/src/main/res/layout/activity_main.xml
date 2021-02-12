@@ -12,8 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary"
-        app:titleTextColor="@android:color/white"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
         app:menu="@menu/appbar_layout">
     </com.google.android.material.appbar.MaterialToolbar>
 
