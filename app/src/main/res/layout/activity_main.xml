@@ -27,11 +27,11 @@
         android:id="@+id/bottom_navigation_bar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:layout_gravity="start"
-        app:itemIconTint="@android:color/white"
-        app:itemTextColor="@android:color/white"
-        android:background="@color/colorPrimary"
+
         android:layout_alignParentBottom="true"
+        android:layout_gravity="start"
+
+        style="@style/Widget.MaterialComponents.BottomNavigationView.PrimarySurface"
         app:menu="@menu/navigation_bar_layout">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 </RelativeLayout>
