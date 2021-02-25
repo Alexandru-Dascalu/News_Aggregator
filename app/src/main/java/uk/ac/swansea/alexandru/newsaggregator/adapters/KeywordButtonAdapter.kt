@@ -12,6 +12,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.R
+import java.util.Locale
 
 class KeywordButtonAdapter (private val streamName: String, private val parentFragment: Fragment) :
     RecyclerView.Adapter<KeywordButtonAdapter.ViewHolder>() {
@@ -138,13 +139,13 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
             button.context.resources.getString(R.string.add_keyword_dialog_title))
             .setView(keywordInput)
             .setPositiveButton(button.context.resources.getString(R.string.add_msg), null)
-            .setNeutralButton(button.context.resources.getString(R.string.cancel_msg)) { dialog, which -> }
+            .setNeutralButton(button.context.resources.getString(R.string.cancel_msg)) { _, _ -> }
             .show()
 
         val addButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         addButton.setOnClickListener() {view ->
             if(keywordInput.text.toString() != "") {
-                Database.instance.addCustomKeyword(keywordInput.text.toString().decapitalize())
+                Database.instance.addCustomKeyword(keywordInput.text.toString().decapitalize(Locale.ROOT))
                 notifyDataSetChanged()
                 dialog.dismiss()
             } else {

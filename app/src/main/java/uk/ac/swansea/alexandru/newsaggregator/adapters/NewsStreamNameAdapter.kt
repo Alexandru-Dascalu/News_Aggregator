@@ -31,7 +31,7 @@ class NewsStreamNameAdapter (private val activity: AppCompatActivity) : Recycler
         val streamNameTextView: AppCompatTextView = itemView.findViewById<AppCompatTextView>(R.id.stream_name_textview)
 
         init {
-            itemView.setOnClickListener() { item ->
+            itemView.setOnClickListener() { _ ->
                 val fragmentTransaction = activity.supportFragmentManager.beginTransaction()
 
                 val stream: String = streamNameTextView.text.toString()

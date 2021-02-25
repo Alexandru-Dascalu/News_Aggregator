@@ -62,7 +62,7 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
              newsApi.getEverything(q = getKeywordQuery(), domains = null, language = Language.EN, sortBy = SortBy.RELEVANCY, pageSize = 20, page = 1)
                  .subscribeOn(Schedulers.io())
                  .toFlowable()
-                 .flatMapIterable { articles -> articles.articles }
+                 .flatMapIterable { articlesDto -> articlesDto.articles }
                  .subscribe(
                      //onNext
                      {
@@ -88,7 +88,7 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
              newsApi.getTopHeadlines(q = getKeywordQuery(), pageSize = 20, page = 1)
                  .subscribeOn(Schedulers.io())
                  .toFlowable()
-                 .flatMapIterable { articles -> articles.articles }
+                 .flatMapIterable { articlesDto -> articlesDto.articles }
                  .subscribe(
                      //onNext
                      { article -> articles.add(article) },

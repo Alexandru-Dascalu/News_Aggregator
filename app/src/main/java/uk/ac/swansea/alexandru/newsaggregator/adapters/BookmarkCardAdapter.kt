@@ -64,8 +64,8 @@ class BookmarkCardAdapter(private var articleList: List<ArticleDto>,
         var article: ArticleDto? = null
 
         init {
-            cardView.setOnClickListener { view ->
-                if(article!!.url != null) {
+            cardView.setOnClickListener { _ ->
+                if(article != null) {
                     val displayArticleIntent = Intent(bookmarksFragment.context,
                         FullArticleActivity::class.java)
                     displayArticleIntent.putExtra("LINK", article!!.url)

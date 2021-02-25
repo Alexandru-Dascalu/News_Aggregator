@@ -29,7 +29,7 @@ class CustomiseStreamsFragment () : Fragment() {
         val customiseRootView = inflater.inflate(R.layout.customise_streams_fragment, container, false)
 
         val addStreamButton = customiseRootView.findViewById<ImageButton>(R.id.add_stream_button)
-        addStreamButton.setOnClickListener { view -> onAddCustomStream() }
+        addStreamButton.setOnClickListener { _ -> onAddCustomStream() }
 
         val removeStreamButton = customiseRootView.findViewById<ImageButton>(R.id.remove_stream_button)
         removeStreamButton.setOnClickListener {view -> onRemoveCustomStream(view)}
@@ -50,11 +50,11 @@ class CustomiseStreamsFragment () : Fragment() {
         val dialog = MaterialAlertDialogBuilder(context!!).setTitle(resources.getString(R.string.add_stream_dialog_title))
             .setView(streamNameInput)
             .setPositiveButton(resources.getString(R.string.add_msg), null)
-            .setNeutralButton(resources.getString(R.string.cancel_msg)) { dialog, which -> }
+            .setNeutralButton(resources.getString(R.string.cancel_msg)) { _, _ -> }
             .show()
 
         val addButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        addButton.setOnClickListener() {view ->
+        addButton.setOnClickListener() { _ ->
             if(streamNameInput.text.toString() != "") {
                 Database.instance.addCustomNewsStream(streamNameInput.text.toString())
                 recyclerView.adapter!!.notifyDataSetChanged()
@@ -73,11 +73,11 @@ class CustomiseStreamsFragment () : Fragment() {
             R.string.remove_stream_dialog_title))
             .setView(streamNameInput)
             .setPositiveButton(resources.getString(R.string.remove_msg), null)
-            .setNeutralButton(resources.getString(R.string.cancel_msg)) { dialog, which -> }
+            .setNeutralButton(resources.getString(R.string.cancel_msg)) { _, _ -> }
             .show()
 
         val addButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-        addButton.setOnClickListener() { view ->
+        addButton.setOnClickListener() { _ ->
             if (streamNameInput.text.toString() != "") {
                 if (streamNameInput.text.toString() == context!!.resources.getString(R.string.all)) {
                     Snackbar.make(this.view!!, resources.getString(R.string.remove_all_stream_msg),
