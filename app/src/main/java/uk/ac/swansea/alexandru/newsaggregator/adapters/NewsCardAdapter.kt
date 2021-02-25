@@ -2,23 +2,26 @@ package uk.ac.swansea.alexandru.newsaggregator.adapters
 
 import android.content.Intent
 import android.text.format.DateUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+
 import androidx.appcompat.widget.AppCompatImageButton
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+
 import com.dfl.newsapi.model.ArticleDto
 import com.squareup.picasso.Picasso
+
 import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.FullArticleActivity
 import uk.ac.swansea.alexandru.newsaggregator.NewsApiCallback
 import uk.ac.swansea.alexandru.newsaggregator.R
 import uk.ac.swansea.alexandru.newsaggregator.fragments.NewsStreamFragment
+
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -31,7 +34,6 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.article_layout, parent, false)
-        Log.i("news card adapter", "view holder created")
 
         return ViewHolder(view)
     }
@@ -60,8 +62,6 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
         holder.article = article
 
         Picasso.get().load(article.urlToImage).into(holder.articleImage)
-
-        Log.i("news card adapter", "view holder bound")
     }
 
     override fun getItemCount(): Int {
@@ -81,8 +81,8 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
         var article: ArticleDto? = null
 
         init {
-            cardView.setOnClickListener { view ->
-                if(article!!.url != null) {
+            cardView.setOnClickListener { _ ->
+                if(article != null) {
                     val displayArticleIntent = Intent(newsStreamFragment.context,
                         FullArticleActivity::class.java)
                     displayArticleIntent.putExtra("LINK", article!!.url)

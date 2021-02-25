@@ -21,8 +21,6 @@ class LogInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
         authenticator = FirebaseAuth.getInstance()
-
-        Log.i("me", "Log in created")
     }
 
     fun logIn(view: View) {
@@ -58,35 +56,9 @@ class LogInActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.i("me", "Log in start")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.i("me", "Log in restart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i("me","Log in resume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i("me", "Log in pause")
-    }
-
     override fun onStop() {
         findViewById<EditText>(R.id.email_input).text.clear()
         findViewById<EditText>(R.id.password_input).text.clear()
         super.onStop()
-        Log.i("me", "Log in stop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i("me", "Log in destroy")
     }
 }

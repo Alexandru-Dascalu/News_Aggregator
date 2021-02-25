@@ -2,14 +2,15 @@ package uk.ac.swansea.alexandru.newsaggregator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+
 import uk.ac.swansea.alexandru.newsaggregator.fragments.BookmarksFragment
 import uk.ac.swansea.alexandru.newsaggregator.fragments.CustomiseStreamsFragment
 import uk.ac.swansea.alexandru.newsaggregator.fragments.HomeFragment
@@ -53,7 +54,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         replaceFragment(homeFragment)
-        Log.i("me", "activity is created")
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -77,37 +77,11 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.i("me", "Main start")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.i("me", "Main restart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i("me","Main resume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i("me", "Main pause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i("me", "Main stop")
-    }
-
     override fun onDestroy() {
         if(authenticator.currentUser != null) {
             authenticator.signOut()
         }
 
         super.onDestroy()
-        Log.i("me", "Main destroy")
     }
 }

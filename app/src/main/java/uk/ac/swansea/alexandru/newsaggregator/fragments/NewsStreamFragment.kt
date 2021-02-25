@@ -1,25 +1,27 @@
 package uk.ac.swansea.alexandru.newsaggregator.fragments
 
 import android.content.Context
-import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
+
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+
 import com.dfl.newsapi.NewsApiRepository
 import com.dfl.newsapi.enums.Language
 import com.dfl.newsapi.enums.SortBy
 import com.dfl.newsapi.model.ArticleDto
 import io.reactivex.schedulers.Schedulers
+
 import uk.ac.swansea.alexandru.newsaggregator.Database
 import uk.ac.swansea.alexandru.newsaggregator.adapters.NewsCardAdapter
 import uk.ac.swansea.alexandru.newsaggregator.R
+
 import java.lang.StringBuilder
 
 class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
@@ -31,11 +33,6 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
         super.onAttach(context)
         newsApi = NewsApiRepository(context.getString(R.string.news_api_key))
         newsCardAdapter = NewsCardAdapter(listOf<ArticleDto>(), this)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        subscribeForArticles()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -68,7 +65,9 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
                  .flatMapIterable { articles -> articles.articles }
                  .subscribe(
                      //onNext
-                     { article -> articles.add(article) },
+                     {
+                             article -> articles.add(article)
+                     },
                      //onError
                      {
                              t -> Log.d("news api error", t.message!!)
