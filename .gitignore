@@ -14,3 +14,12 @@
 .cxx
 
 **/*/res/values/apiKey.xml
+/.idea/.name
+/.idea/codeStyles/codeStyleConfig.xml
+/.idea/compiler.xml
+/.idea/gradle.xml
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/.idea/codeStyles/Project.xml
+/.idea/runConfigurations.xml
+/.idea/vcs.xml
