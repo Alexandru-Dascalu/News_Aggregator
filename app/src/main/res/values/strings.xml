@@ -30,4 +30,5 @@
     <string name="remove_all_stream_msg">The All news stream can not be removed!</string>
     <string name="recommended">Recommended</string>
     <string name="loading">Loading</string>
+    <string name="article_image_content_description">article image</string>
 </resources>
