@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:155298191834:android:5b5a80f88821c1c1ec08e3",
+        "mobilesdk_app_id": "1:155298191834:android:1d294a21a9195c76ec08e3",
         "android_client_info": {
-          "package_name": "uk.ac.swansea.alexandru.newsaggregator"
+          "package_name": "uk.ac.swansea.dascalu.newsaggregator"
         }
       },
       "oauth_client": [
