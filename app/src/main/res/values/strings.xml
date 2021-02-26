@@ -31,4 +31,7 @@
     <string name="recommended">Recommended</string>
     <string name="loading">Loading</string>
     <string name="article_image_content_description">article image</string>
+
+    <string name="article_card_reason_message">"Because you follow %1$s"</string>
+    <string name="log_in_credentials_msg">Type in credentials!</string>
 </resources>

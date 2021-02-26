@@ -31,7 +31,7 @@ class LogInActivity : AppCompatActivity() {
 
             task.addOnCompleteListener(this) {logInTask -> checkLogIn(logInTask, view)}
         } else {
-            Snackbar.make(view, "Type in credentials!", Snackbar.LENGTH_LONG).show()
+            Snackbar.make(view, getString(R.string.log_in_credentials_msg), Snackbar.LENGTH_LONG).show()
             hideKeyboard(view, this)
         }
     }

@@ -36,7 +36,8 @@ class BookmarkCardAdapter(private var articleList: List<ArticleDto>,
 
         val reason = Database.instance.getKeywordForArticle(article)
         if(reason != "") {
-            holder.displayReason.text = "Because you follow $reason"
+            holder.displayReason.text = bookmarksFragment.context!!.getString(
+                R.string.article_card_reason_message, reason)
         } else {
             holder.displayReason.text = ""
         }
