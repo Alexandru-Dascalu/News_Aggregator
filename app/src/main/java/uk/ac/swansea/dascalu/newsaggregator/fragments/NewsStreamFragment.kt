@@ -25,7 +25,6 @@ import uk.ac.swansea.dascalu.newsaggregator.adapters.NewsCardAdapter
 import uk.ac.swansea.dascalu.newsaggregator.R
 
 import java.lang.StringBuilder
-import java.util.ArrayList
 
 class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
     private val debugMode: Boolean = false
