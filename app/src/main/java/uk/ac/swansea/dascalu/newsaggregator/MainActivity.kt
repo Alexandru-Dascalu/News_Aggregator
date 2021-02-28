@@ -17,12 +17,11 @@ import uk.ac.swansea.dascalu.newsaggregator.fragments.HomeFragment
 
 class MainActivity : AppCompatActivity() {
     private val authenticator = FirebaseAuth.getInstance()
-    private val homeFragment = HomeFragment()
 
     private val navigationBarItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.home_button -> {
-                replaceFragment(homeFragment)
+                replaceFragment(HomeFragment())
                 return@OnNavigationItemSelectedListener true
             }
             R.id.customise_button -> {
@@ -53,7 +52,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        replaceFragment(homeFragment)
+        replaceFragment(HomeFragment())
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
