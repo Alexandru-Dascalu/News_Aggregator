@@ -11,7 +11,8 @@
         android:hardwareAccelerated="false"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".LogInActivity">
+        <activity android:name=".LogInActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
