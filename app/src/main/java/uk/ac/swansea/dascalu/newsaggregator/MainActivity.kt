@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import com.google.firebase.auth.FirebaseAuth
 
 import uk.ac.swansea.dascalu.newsaggregator.fragments.BookmarksFragment
@@ -18,19 +19,20 @@ import uk.ac.swansea.dascalu.newsaggregator.fragments.HomeFragment
 class MainActivity : AppCompatActivity() {
     private val authenticator = FirebaseAuth.getInstance()
 
-    private val navigationBarItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    // listener for bottom navigation bar
+    private val navigationBarItemSelectedListener = NavigationBarView.OnItemSelectedListener { item ->
         when (item.itemId) {
             R.id.home_button -> {
                 replaceFragment(HomeFragment())
-                return@OnNavigationItemSelectedListener true
+                return@OnItemSelectedListener true
             }
             R.id.customise_button -> {
                 replaceFragment(CustomiseStreamsFragment())
-                return@OnNavigationItemSelectedListener true
+                return@OnItemSelectedListener true
             }
             R.id.bookmarks_button -> {
                 replaceFragment(BookmarksFragment())
-                return@OnNavigationItemSelectedListener true
+                return@OnItemSelectedListener true
             }
         }
         false
@@ -44,14 +46,16 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(appBar)
 
         findViewById<BottomNavigationView>(R.id.bottom_navigation_bar).
-            setOnNavigationItemSelectedListener(navigationBarItemSelectedListener)
+            setOnItemSelectedListener(navigationBarItemSelectedListener)
 
+        // automatically close activity when logging out
         authenticator.addAuthStateListener {
             if(authenticator.currentUser == null) {
                 this.finish()
             }
         }
 
+        // place fragment with news streams
         replaceFragment(HomeFragment())
     }
 
