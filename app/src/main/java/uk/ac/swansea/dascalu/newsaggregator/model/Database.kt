@@ -75,7 +75,8 @@ class Database private constructor (authenticator: FirebaseAuth,
     }
 
     fun addCustomNewsStream(name: String) {
-        val existingNewsStreams = user.customStreams.filter { it.name.toLowerCase() == name.toLowerCase() }
+        val existingNewsStreams = user.customStreams.filter {
+            it.name.lowercase() == name.lowercase() }
         if(existingNewsStreams.size > 1) {
             throw IllegalStateException("Multiple news streams with the same name!")
         }
@@ -88,7 +89,8 @@ class Database private constructor (authenticator: FirebaseAuth,
     }
 
     fun removeCustomNewsStream(deletedName: String) {
-        val hasChanged = user.customStreams.removeIf { stream -> stream.name.toLowerCase() == deletedName.toLowerCase() }
+        val hasChanged = user.customStreams.removeIf { stream ->
+            stream.name.lowercase() == deletedName.lowercase() }
 
         if(hasChanged) {
             userReference.setValue(user)
@@ -117,7 +119,7 @@ class Database private constructor (authenticator: FirebaseAuth,
     }
 
     fun addCustomKeyword(keyword: String) {
-        val existingKeywords = user.customKeywords.filter { it.toLowerCase() == keyword.toLowerCase() }
+        val existingKeywords = user.customKeywords.filter { it.lowercase() == keyword.lowercase() }
         if(existingKeywords.size > 1) {
             throw IllegalStateException("Multiple identical keywords!")
         }
@@ -129,7 +131,7 @@ class Database private constructor (authenticator: FirebaseAuth,
     }
 
     fun removeCustomKeyword(keyword: String) {
-        val hasChanged = user.customKeywords.removeIf { it.toLowerCase() == keyword.toLowerCase() }
+        val hasChanged = user.customKeywords.removeIf { it.lowercase() == keyword.lowercase() }
 
         if(hasChanged) {
             userReference.setValue(user)
@@ -138,7 +140,7 @@ class Database private constructor (authenticator: FirebaseAuth,
 
     fun isKeywordSelectedInStream(keyword: String, streamName: String): Boolean {
         val customNewsStream: NewsStream = user.customStreams.first { stream ->
-            stream.name.toLowerCase() == streamName.toLowerCase() }
+            stream.name.lowercase() == streamName.lowercase() }
 
         val keywordIndex: Int = user.customKeywords.indexOf(keyword)
 
@@ -146,10 +148,10 @@ class Database private constructor (authenticator: FirebaseAuth,
     }
 
     fun selectKeyword(customStreamName: String, keyword: String) {
-        var keywordIndex: Int = user.customKeywords.indexOf(keyword)
+        val keywordIndex: Int = user.customKeywords.indexOf(keyword)
 
         val customStream = user.customStreams.first { stream ->
-            stream.name.toLowerCase() == customStreamName.toLowerCase() }
+            stream.name.lowercase() == customStreamName.lowercase() }
         customStream.keywords.add(keywordIndex)
 
         //check if the custom stream is not the All stream
@@ -164,10 +166,10 @@ class Database private constructor (authenticator: FirebaseAuth,
     }
 
     fun unSelectKeyword(customStreamName: String, keyword: String) {
-        var keywordIndex: Int = user.customKeywords.indexOf(keyword)
+        val keywordIndex: Int = user.customKeywords.indexOf(keyword)
 
         val customStream = user.customStreams.first { stream ->
-            stream.name.toLowerCase() == customStreamName.toLowerCase() }
+            stream.name.lowercase() == customStreamName.lowercase() }
         customStream.keywords.remove(keywordIndex)
 
         userReference.setValue(user)
