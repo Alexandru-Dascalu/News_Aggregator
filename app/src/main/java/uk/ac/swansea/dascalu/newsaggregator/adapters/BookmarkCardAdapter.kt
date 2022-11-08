@@ -34,7 +34,7 @@ class BookmarkCardAdapter(private var articleList: List<ArticleDto>,
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = articleList[position]
 
-        val reason = Database.instance.getKeywordForArticle(article)
+        val reason = Database.getInstance().getKeywordForArticle(article)
         if(reason != "") {
             holder.displayReason.text = bookmarksFragment.context!!.getString(
                 R.string.article_card_reason_message, reason)

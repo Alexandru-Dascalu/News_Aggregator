@@ -11,7 +11,7 @@ class LoadingActivity : AppCompatActivity(), FirebaseLoadedCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loading)
 
-        Database(FirebaseAuth.getInstance(), this)
+        Database.createDatabase(FirebaseAuth.getInstance(), this)
     }
 
     override fun onLoaded() {

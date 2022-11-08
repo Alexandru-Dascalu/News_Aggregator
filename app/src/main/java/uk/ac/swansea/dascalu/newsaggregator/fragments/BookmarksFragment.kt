@@ -22,6 +22,6 @@ class BookmarksFragment: Fragment() {
         val recyclerView = view.findViewById<RecyclerView>(R.id.bookmark_recycler_view)
         val layoutManager = LinearLayoutManager(context)
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = BookmarkCardAdapter(Database.instance.getBookmarks(), this)
+        recyclerView.adapter = BookmarkCardAdapter(Database.getInstance().getBookmarks(), this)
     }
 }

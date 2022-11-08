@@ -25,12 +25,12 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
      private val keywordClickListener = View.OnClickListener { view ->
         val button = view as MaterialButton
 
-        if(Database.instance.isKeywordSelectedInStream(button.text.toString(), streamName)) {
+        if(Database.getInstance().isKeywordSelectedInStream(button.text.toString(), streamName)) {
             unSelectKeywordButton(button)
-            Database.instance.unSelectKeyword(streamName, button.text.toString())
+            Database.getInstance().unSelectKeyword(streamName, button.text.toString())
         } else {
             selectKeywordButton(button)
-            Database.instance.selectKeyword(streamName, button.text.toString())
+            Database.getInstance().selectKeyword(streamName, button.text.toString())
         }
     }
 
@@ -48,7 +48,7 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
         override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
             return when (item.itemId) {
                 R.id.remove_keyword -> {
-                    Database.instance.removeCustomKeyword(actionMode!!.tag.toString().decapitalize())
+                    Database.getInstance().removeCustomKeyword(actionMode!!.tag.toString().decapitalize())
                     notifyDataSetChanged()
                     mode.finish()
                     true
@@ -77,18 +77,18 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
             holder.keywordButton.setOnClickListener(addClickListener)
             holder.keywordButton.setOnLongClickListener(null)
         } else {
-            val keyword: String = Database.instance.getKeywordList()[position - 1]
+            val keyword: String = Database.getInstance().getKeywordList()[position - 1]
 
             holder.keywordButton.text = keyword
 
-            if(Database.instance.isKeywordSelectedInStream(keyword, streamName)) {
+            if(Database.getInstance().isKeywordSelectedInStream(keyword, streamName)) {
                 selectKeywordButton(holder.keywordButton)
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return Database.instance.getKeywordList().size + 1
+        return Database.getInstance().getKeywordList().size + 1
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -145,7 +145,7 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
         val addButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         addButton.setOnClickListener() {view ->
             if(keywordInput.text.toString() != "") {
-                Database.instance.addCustomKeyword(keywordInput.text.toString().decapitalize(Locale.ROOT))
+                Database.getInstance().addCustomKeyword(keywordInput.text.toString().decapitalize(Locale.ROOT))
                 notifyDataSetChanged()
                 dialog.dismiss()
             } else {

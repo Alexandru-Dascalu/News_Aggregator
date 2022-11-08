@@ -40,7 +40,7 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val article = articleList[position]
-        val reason = Database.instance.getKeywordForArticle(article)
+        val reason = Database.getInstance().getKeywordForArticle(article)
 
         if(reason != "") {
             holder.displayReason.text = newsStreamFragment.context!!.getString(
@@ -54,7 +54,7 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
         holder.articleSource.text = article.source.name
         holder.publicationTime.text = "• ${getPublishTimeAgo(article.publishedAt)}"
 
-        if(Database.instance.isBookmarked(article)) {
+        if(Database.getInstance().isBookmarked(article)) {
             selectBookmark(holder.bookmarkButton)
         } else {
             unSelectBookmark(holder.bookmarkButton)
@@ -95,12 +95,12 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
             bookmarkButton.setOnClickListener { view ->
                 val imageButton = view as ImageButton
 
-                if(Database.instance.isBookmarked(article!!)) {
+                if(Database.getInstance().isBookmarked(article!!)) {
                     unSelectBookmark(imageButton)
-                    Database.instance.removeBookmarks(article!!)
+                    Database.getInstance().removeBookmarks(article!!)
                 } else {
                     selectBookmark(imageButton)
-                    Database.instance.addBookmark(article!!)
+                    Database.getInstance().addBookmark(article!!)
                 }
             }
         }

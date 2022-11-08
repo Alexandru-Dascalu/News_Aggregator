@@ -122,7 +122,7 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
     }
 
     private fun getKeywordQuery(): String {
-        val streamKeywords = Database.instance.getKeywordsForStream(newsStreamName)
+        val streamKeywords = Database.getInstance().getKeywordsForStream(newsStreamName)
 
         if(streamKeywords.isEmpty()) {
             return ""

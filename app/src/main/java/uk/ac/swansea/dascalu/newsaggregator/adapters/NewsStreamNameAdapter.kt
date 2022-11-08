@@ -20,11 +20,11 @@ class NewsStreamNameAdapter (private val activity: AppCompatActivity) : Recycler
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.streamNameTextView.text = Database.instance.getUser().customStreams[position].name
+        holder.streamNameTextView.text = Database.getInstance().getUser().customStreams[position].name
     }
 
     override fun getItemCount(): Int {
-        return Database.instance.getUser().customStreams.size
+        return Database.getInstance().getUser().customStreams.size
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

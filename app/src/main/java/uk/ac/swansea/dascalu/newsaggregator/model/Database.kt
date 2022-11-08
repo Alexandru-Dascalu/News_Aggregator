@@ -9,11 +9,26 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import uk.ac.swansea.dascalu.newsaggregator.FirebaseLoadedCallback
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 
-class Database (private val authenticator: FirebaseAuth, private val callback : FirebaseLoadedCallback) {
+class Database private constructor (authenticator: FirebaseAuth,
+                                    private val callback : FirebaseLoadedCallback) {
     companion object {
-        lateinit var instance: Database
+        private lateinit var databaseInstance: Database
+
+        fun getInstance() : Database {
+            if (::databaseInstance.isInitialized) {
+                return databaseInstance
+            } else {
+                throw IllegalStateException("Database object does not exist! You must pass in an " +
+                        "authenticator and callback in order to create one! You must call " +
+                        "getDatabase(authenticator, callback) instead!")
+            }
+        }
+
+        fun createDatabase(authenticator: FirebaseAuth, callback: FirebaseLoadedCallback) {
+            databaseInstance = Database(authenticator, callback)
+        }
     }
 
     private val database : FirebaseDatabase = Firebase.database
@@ -78,8 +93,6 @@ class Database (private val authenticator: FirebaseAuth, private val callback : 
 
         newsTopicsReference.addValueEventListener(newsTopicsListener)
         userReference.addValueEventListener(userListener)
-
-        instance = this
     }
 
     fun getUser() : User {

@@ -29,7 +29,7 @@ class HomeFragment : Fragment() {
         val tabLayout = view.findViewById<TabLayout>(R.id.tab_layout)
         val viewPager = view.findViewById<ViewPager2>(R.id.stream_pager)
 
-        val newsStreams = Database.instance.getUserCustomStreamNames()
+        val newsStreams = Database.getInstance().getUserCustomStreamNames()
         newsStreams.add(context!!.resources.getString(R.string.recommended))
 
         viewPager.adapter = NewsStreamTabAdapter(activity as AppCompatActivity, newsStreams)
