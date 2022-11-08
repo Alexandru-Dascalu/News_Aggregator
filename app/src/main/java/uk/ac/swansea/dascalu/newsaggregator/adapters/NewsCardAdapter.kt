@@ -43,7 +43,7 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
         val reason = Database.getInstance().getKeywordForArticle(article)
 
         if(reason != "") {
-            holder.displayReason.text = newsStreamFragment.context!!.getString(
+            holder.displayReason.text = newsStreamFragment.requireContext().getString(
                 R.string.article_card_reason_message, reason)
         } else {
             holder.displayReason.text = ""
@@ -88,7 +88,7 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
                         FullArticleActivity::class.java)
                     displayArticleIntent.putExtra("LINK", article!!.url)
 
-                    newsStreamFragment.context!!.startActivity(displayArticleIntent)
+                    newsStreamFragment.requireContext().startActivity(displayArticleIntent)
                 }
             }
 
@@ -108,7 +108,7 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
 
     override fun onGetArticles(articles: List<ArticleDto>) {
         if(newsStreamFragment.activity != null) {
-            newsStreamFragment.activity!!.runOnUiThread {
+            newsStreamFragment.requireActivity().runOnUiThread {
                 articleList = articles
                 this.notifyDataSetChanged()
             }

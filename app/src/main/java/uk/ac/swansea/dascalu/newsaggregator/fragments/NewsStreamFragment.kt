@@ -69,7 +69,7 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
      private fun subscribeForArticles(swipeLayout: SwipeRefreshLayout? = null) {
         val articles = mutableListOf<ArticleDto>()
 
-         if(newsStreamName != context!!.getString(R.string.recommended)) {
+         if(newsStreamName != requireContext().getString(R.string.recommended)) {
              newsApi.getEverything(q = getKeywordQuery(), domains = null, language = Language.EN, sortBy = SortBy.RELEVANCY, pageSize = 20, page = 1)
                  .subscribeOn(Schedulers.io())
                  .toFlowable()
@@ -87,7 +87,7 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
                      {
                          articles.shuffle()
                          if(swipeLayout != null) {
-                             activity!!.runOnUiThread {
+                             requireActivity().runOnUiThread {
                                  swipeLayout.isRefreshing = false
                              }
                          }
@@ -111,7 +111,7 @@ class NewsStreamFragment(private val newsStreamName: String) : Fragment() {
                      {
                          articles.shuffle()
                          if(swipeLayout != null) {
-                             activity!!.runOnUiThread {
+                             requireActivity().runOnUiThread {
                                  swipeLayout.isRefreshing = false
                              }
                          }

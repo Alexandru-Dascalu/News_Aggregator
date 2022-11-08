@@ -36,7 +36,7 @@ class BookmarkCardAdapter(private var articleList: List<ArticleDto>,
 
         val reason = Database.getInstance().getKeywordForArticle(article)
         if(reason != "") {
-            holder.displayReason.text = bookmarksFragment.context!!.getString(
+            holder.displayReason.text = bookmarksFragment.requireContext().getString(
                 R.string.article_card_reason_message, reason)
         } else {
             holder.displayReason.text = ""
@@ -74,7 +74,7 @@ class BookmarkCardAdapter(private var articleList: List<ArticleDto>,
                         FullArticleActivity::class.java)
                     displayArticleIntent.putExtra("LINK", article!!.url)
 
-                    bookmarksFragment.context!!.startActivity(displayArticleIntent)
+                    bookmarksFragment.requireContext().startActivity(displayArticleIntent)
                 }
             }
 

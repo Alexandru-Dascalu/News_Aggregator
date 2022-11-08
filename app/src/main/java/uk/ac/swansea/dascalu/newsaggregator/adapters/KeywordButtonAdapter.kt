@@ -99,8 +99,8 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
             keywordButton.setOnLongClickListener { view ->
                 when (actionMode) {
                     null -> {
-                        actionMode = parentFragment.activity!!.startActionMode(actionModeCallback)
-                        actionMode!!.title = "${parentFragment.context!!.resources.getString(
+                        actionMode = parentFragment.requireActivity().startActionMode(actionModeCallback)
+                        actionMode!!.title = "${parentFragment.requireContext().resources.getString(
                             R.string.remove_keyword_msg)} ${keywordButton.text}"
                         actionMode!!.tag = keywordButton.text.toString()
 
@@ -149,7 +149,7 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
                 notifyDataSetChanged()
                 dialog.dismiss()
             } else {
-                Snackbar.make(parentFragment.view!!, view.context.getString(R.string.keyword_type_in_message),
+                Snackbar.make(parentFragment.requireView(), view.context.getString(R.string.keyword_type_in_message),
                     Snackbar.LENGTH_SHORT).show()
             }
         }

@@ -47,7 +47,7 @@ class CustomiseStreamsFragment () : Fragment() {
     fun onAddCustomStream() {
         val streamNameInput = EditText(context)
 
-        val dialog = MaterialAlertDialogBuilder(context!!).setTitle(resources.getString(R.string.add_stream_dialog_title))
+        val dialog = MaterialAlertDialogBuilder(requireContext()).setTitle(resources.getString(R.string.add_stream_dialog_title))
             .setView(streamNameInput)
             .setPositiveButton(resources.getString(R.string.add_msg), null)
             .setNeutralButton(resources.getString(R.string.cancel_msg)) { _, _ -> }
@@ -60,7 +60,7 @@ class CustomiseStreamsFragment () : Fragment() {
                 recyclerView.adapter!!.notifyDataSetChanged()
                 dialog.dismiss()
             } else {
-                Snackbar.make(this.view!!, resources.getString(R.string.stream_name_type_in_message),
+                Snackbar.make(requireView(), resources.getString(R.string.stream_name_type_in_message),
                     Snackbar.LENGTH_SHORT).show()
             }
         }
@@ -69,7 +69,7 @@ class CustomiseStreamsFragment () : Fragment() {
     fun onRemoveCustomStream(fragmentView: View) {
         val streamNameInput = EditText(context)
 
-        val dialog = MaterialAlertDialogBuilder(context!!).setTitle(resources.getString(
+        val dialog = MaterialAlertDialogBuilder(requireContext()).setTitle(resources.getString(
             R.string.remove_stream_dialog_title))
             .setView(streamNameInput)
             .setPositiveButton(resources.getString(R.string.remove_msg), null)
@@ -79,8 +79,8 @@ class CustomiseStreamsFragment () : Fragment() {
         val addButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         addButton.setOnClickListener() { _ ->
             if (streamNameInput.text.toString() != "") {
-                if (streamNameInput.text.toString() == context!!.resources.getString(R.string.all)) {
-                    Snackbar.make(this.view!!, resources.getString(R.string.remove_all_stream_msg),
+                if (streamNameInput.text.toString() == requireContext().resources.getString(R.string.all)) {
+                    Snackbar.make(requireView(), resources.getString(R.string.remove_all_stream_msg),
                         Snackbar.LENGTH_LONG).show()
                 } else {
                     Database.getInstance().removeCustomNewsStream(streamNameInput.text.toString())
@@ -88,7 +88,7 @@ class CustomiseStreamsFragment () : Fragment() {
                     dialog.dismiss()
                 }
             } else {
-                Snackbar.make(this.view!!, resources.getString(R.string.stream_name_type_in_message),
+                Snackbar.make(requireView(), resources.getString(R.string.stream_name_type_in_message),
                     Snackbar.LENGTH_SHORT).show()
             }
         }
