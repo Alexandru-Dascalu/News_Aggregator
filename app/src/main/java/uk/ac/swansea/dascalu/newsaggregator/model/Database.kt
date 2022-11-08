@@ -32,35 +32,10 @@ class Database private constructor (authenticator: FirebaseAuth,
     }
 
     private val database : FirebaseDatabase = Firebase.database
-    private val newsTopicsReference : DatabaseReference = database.getReference("topics")
-    private val userReference: DatabaseReference
+    private val userReference: DatabaseReference = database.getReference("users").child(
+        authenticator.currentUser!!.uid)
 
-    private lateinit var defaultNewsTopics : List<String>
     private lateinit var user : User
-
-    private var isUserInitialised = false
-    private var areTopicsInitialised = false
-
-    private val newsTopicsListener =  object: ValueEventListener {
-        override fun onDataChange(dataSnapshot: DataSnapshot) {
-            val topics = dataSnapshot.getValue<List<String>>()
-            if(topics != null) {
-                defaultNewsTopics = topics
-
-                if(!areTopicsInitialised) {
-                    areTopicsInitialised = true
-
-                    if(isUserInitialised && areTopicsInitialised) {
-                        callback.onLoaded()
-                    }
-                }
-            }
-        }
-
-        override fun onCancelled(databaseError: DatabaseError) {
-            Log.w("a", "loadPost:onCancelled", databaseError.toException())
-        }
-    }
 
     private val userListener =  object: ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -72,13 +47,7 @@ class Database private constructor (authenticator: FirebaseAuth,
                 user.setBookmarks()
                 user.customStreams.forEach { it.setKeywords() }
 
-                if(!isUserInitialised) {
-                    isUserInitialised = true
-
-                    if(isUserInitialised && areTopicsInitialised) {
-                        callback.onLoaded()
-                    }
-                }
+                callback.onLoaded()
             }
         }
 
@@ -88,10 +57,6 @@ class Database private constructor (authenticator: FirebaseAuth,
     }
 
     init {
-        val userID = authenticator.currentUser!!.uid
-        userReference = database.getReference("users").child(userID)
-
-        newsTopicsReference.addValueEventListener(newsTopicsListener)
         userReference.addValueEventListener(userListener)
     }
 
@@ -131,11 +96,7 @@ class Database private constructor (authenticator: FirebaseAuth,
     }
 
     fun getKeywordList(): List<String> {
-        val keywordList = mutableListOf<String>()
-        keywordList.addAll(defaultNewsTopics)
-        keywordList.addAll(user.customKeywords)
-
-        return keywordList
+        return user.customKeywords
     }
 
     fun getKeywordsForStream(newsStreamName: String) : List<String> {
@@ -179,20 +140,13 @@ class Database private constructor (authenticator: FirebaseAuth,
         val customNewsStream: NewsStream = user.customStreams.first { stream ->
             stream.name.toLowerCase() == streamName.toLowerCase() }
 
-        val keywordIndex: Int = if(keyword in defaultNewsTopics) {
-            -1 - defaultNewsTopics.indexOf(keyword)
-        } else {
-            user.customKeywords.indexOf(keyword)
-        }
+        val keywordIndex: Int = user.customKeywords.indexOf(keyword)
 
         return keywordIndex in customNewsStream.keywords
     }
 
     fun selectKeyword(customStreamName: String, keyword: String) {
         var keywordIndex: Int = user.customKeywords.indexOf(keyword)
-        if(keywordIndex == -1) {
-            keywordIndex = -1 - defaultNewsTopics.indexOf(keyword)
-        }
 
         val customStream = user.customStreams.first { stream ->
             stream.name.toLowerCase() == customStreamName.toLowerCase() }
@@ -211,9 +165,6 @@ class Database private constructor (authenticator: FirebaseAuth,
 
     fun unSelectKeyword(customStreamName: String, keyword: String) {
         var keywordIndex: Int = user.customKeywords.indexOf(keyword)
-        if(keywordIndex == -1) {
-            keywordIndex = -1 - defaultNewsTopics.indexOf(keyword)
-        }
 
         val customStream = user.customStreams.first { stream ->
             stream.name.toLowerCase() == customStreamName.toLowerCase() }
