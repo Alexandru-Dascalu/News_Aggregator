@@ -2,12 +2,16 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorSecondary">@color/colorSecondary</item>
-        <item name="android:colorBackground">@color/colorBackground</item>
-        <item name="colorOnPrimary">@color/onPrimary</item>
-        <item name="colorOnSecondary">@color/onSecondary</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blueDark</item>
+        <item name="colorSecondary">@color/lightGreen</item>
+        <item name="colorSecondaryVariant">@color/darkLightGreen</item>
+
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorOnSecondary">@color/grey</item>
+
+        <item name="android:colorBackground">@color/grey</item>
+        <item name="colorSurface">@color/white</item>
         <item name="windowActionModeOverlay">true</item>
     </style>
 

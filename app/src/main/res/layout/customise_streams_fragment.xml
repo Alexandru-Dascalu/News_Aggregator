@@ -5,15 +5,13 @@
     android:id="@+id/linear_layout_news_stream_names"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:background="@color/colorBackground">
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.LinearLayoutCompat
         android:id="@+id/news_stream_names_top_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:background="@color/colorBackground">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/customise_streams_title"

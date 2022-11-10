@@ -114,21 +114,21 @@ class KeywordButtonAdapter (private val streamName: String, private val parentFr
     }
 
     private fun selectKeywordButton(button: MaterialButton) {
-        button.setBackgroundColor(ContextCompat.getColor(button.context, R.color.colorBackground))
-        button.setTextColor(ContextCompat.getColor(button.context, R.color.colorPrimary))
+        button.setBackgroundColor(ContextCompat.getColor(button.context, R.color.grey))
+        button.setTextColor(ContextCompat.getColor(button.context, R.color.blue))
         button.strokeWidth = 10
-        button.setStrokeColorResource(R.color.colorPrimary)
+        button.setStrokeColorResource(R.color.blue)
     }
 
     private fun unSelectKeywordButton(button: MaterialButton) {
-        button.setBackgroundColor(ContextCompat.getColor(button.context, R.color.colorPrimary))
-        button.setTextColor(ContextCompat.getColor(button.context, R.color.onPrimary))
+        button.setBackgroundColor(ContextCompat.getColor(button.context, R.color.blue))
+        button.setTextColor(ContextCompat.getColor(button.context, R.color.black))
         button.strokeWidth = 0
     }
 
     private fun setAddButtonLook(button: MaterialButton) {
-        button.setBackgroundColor(ContextCompat.getColor(button.context, R.color.colorSecondary))
-        button.setTextColor(ContextCompat.getColor(button.context, R.color.onSecondary))
+        button.setBackgroundColor(ContextCompat.getColor(button.context, R.color.lightGreen))
+        button.setTextColor(ContextCompat.getColor(button.context, R.color.grey))
         button.strokeWidth = 0
     }
 
