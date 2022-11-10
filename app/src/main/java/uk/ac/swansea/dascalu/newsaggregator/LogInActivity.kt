@@ -12,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth
 
 import uk.ac.swansea.dascalu.newsaggregator.utils.hideKeyboard
 
+val DEBUG : Boolean = true
+
 class LogInActivity : AppCompatActivity() {
 
     private lateinit var authenticator : FirebaseAuth
@@ -23,8 +25,12 @@ class LogInActivity : AppCompatActivity() {
     }
 
     fun logIn(view: View) {
-        val emailAddress = findViewById<EditText>(R.id.email_input).text.toString()
-        val password = findViewById<EditText>(R.id.password_input).text.toString()
+        var emailAddress = findViewById<EditText>(R.id.email_input).text.toString()
+        var password = findViewById<EditText>(R.id.password_input).text.toString()
+        if(DEBUG) {
+            emailAddress = "alexandru.dascalu100@gmail.com"
+            password = "123456"
+        }
 
         if(emailAddress != "" && password != "") {
             val task = authenticator.signInWithEmailAndPassword(emailAddress, password)

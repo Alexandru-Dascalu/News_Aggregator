@@ -56,7 +56,7 @@ class CustomiseStreamsFragment () : Fragment() {
         val addButton: Button = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
         addButton.setOnClickListener() { _ ->
             if(streamNameInput.text.toString() != "") {
-                Database.getInstance().addCustomNewsStream(streamNameInput.text.toString())
+                Database.getInstance().addNewsStream(streamNameInput.text.toString())
                 recyclerView.adapter!!.notifyDataSetChanged()
                 dialog.dismiss()
             } else {
@@ -83,7 +83,7 @@ class CustomiseStreamsFragment () : Fragment() {
                     Snackbar.make(requireView(), resources.getString(R.string.remove_all_stream_msg),
                         Snackbar.LENGTH_LONG).show()
                 } else {
-                    Database.getInstance().removeCustomNewsStream(streamNameInput.text.toString())
+                    Database.getInstance().removeNewsStream(streamNameInput.text.toString())
                     recyclerView.adapter!!.notifyDataSetChanged()
                     dialog.dismiss()
                 }

@@ -22,7 +22,7 @@ public class NewsStream {
         return keywords;
     }
 
-    public void setKeywords() {
+    public void initialiseKeywords() {
         if(this.keywords == null){
             this.keywords = new LinkedList<>();
         }

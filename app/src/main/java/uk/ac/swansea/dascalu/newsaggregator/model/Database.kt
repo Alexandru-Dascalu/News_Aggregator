@@ -7,7 +7,6 @@ import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.ktx.Firebase
-import com.google.gson.Gson
 import uk.ac.swansea.dascalu.newsaggregator.FirebaseLoadedCallback
 import kotlin.IllegalStateException
 
@@ -37,15 +36,15 @@ class Database private constructor (authenticator: FirebaseAuth,
 
     private lateinit var user : User
 
-    private val userListener =  object: ValueEventListener {
+    private val userListener = object : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             val remoteUser = dataSnapshot.getValue<User>()
             if(remoteUser != null) {
                 user = remoteUser
 
-                user.setCustomKeywords()
-                user.setBookmarks()
-                user.customStreams.forEach { it.setKeywords() }
+                user.initialiseCustomKeywords()
+                user.initialiseBookmarks()
+                user.customStreams.forEach { it.initialiseKeywords() }
 
                 callback.onLoaded()
             }
@@ -64,37 +63,26 @@ class Database private constructor (authenticator: FirebaseAuth,
         return user
     }
 
-    fun getUserCustomStreamNames(): MutableList<String> {
-        val namesList = mutableListOf<String>()
-
-        for(stream in user.customStreams) {
-            namesList.add(stream.name)
-        }
-
-        return namesList
+    fun getUserStreamNames(): MutableList<String> {
+        return user.streamNames();
     }
 
-    fun addCustomNewsStream(name: String) {
-        val existingNewsStreams = user.customStreams.filter {
-            it.name.lowercase() == name.lowercase() }
-        if(existingNewsStreams.size > 1) {
-            throw IllegalStateException("Multiple news streams with the same name!")
-        }
-
-        if(existingNewsStreams.isEmpty()) {
-            val newNewsStream = NewsStream(name, mutableListOf<Int>())
-            user.customStreams.add(newNewsStream)
+    fun addNewsStream(streamName: String) : Boolean {
+        val isStreamNew : Boolean = user.addNewsStream(streamName)
+        if (isStreamNew) {
             userReference.setValue(user)
         }
+
+        return isStreamNew
     }
 
-    fun removeCustomNewsStream(deletedName: String) {
-        val hasChanged = user.customStreams.removeIf { stream ->
-            stream.name.lowercase() == deletedName.lowercase() }
-
+    fun removeNewsStream(deletedStreamName: String) : Boolean {
+        val hasChanged : Boolean = user.removeNewsStream(deletedStreamName)
         if(hasChanged) {
             userReference.setValue(user)
         }
+
+        return hasChanged
     }
 
     fun getKeywordList(): List<String> {
@@ -102,138 +90,61 @@ class Database private constructor (authenticator: FirebaseAuth,
     }
 
     fun getKeywordsForStream(newsStreamName: String) : List<String> {
-        if(newsStreamName == "Recommended") {
-            return getKeywordsInBookmarks()
-        } else {
-            val allKeywords = getKeywordList()
-            val streamKeywords = mutableListOf<String>()
-
-            for(keyword in allKeywords) {
-                if(isKeywordSelectedInStream(keyword, newsStreamName)) {
-                    streamKeywords.add(keyword)
-                }
-            }
-
-            return streamKeywords
-        }
+        return user.getKeywordsForStream(newsStreamName)
     }
 
-    fun addCustomKeyword(keyword: String) {
-        val existingKeywords = user.customKeywords.filter { it.lowercase() == keyword.lowercase() }
-        if(existingKeywords.size > 1) {
-            throw IllegalStateException("Multiple identical keywords!")
-        }
-
-        if(existingKeywords.isEmpty()) {
-            user.customKeywords.add(keyword)
+    fun addCustomKeyword(keyword: String) : Boolean {
+        val isKeywordNew : Boolean = user.addCustomKeyword(keyword)
+        if(isKeywordNew) {
             userReference.setValue(user)
         }
+
+        return isKeywordNew
     }
 
-    fun removeCustomKeyword(keyword: String) {
-        val hasChanged = user.customKeywords.removeIf { it.lowercase() == keyword.lowercase() }
-
+    fun removeCustomKeyword(keyword: String) : Boolean {
+        val hasChanged = user.removeCustomKeyword(keyword)
         if(hasChanged) {
             userReference.setValue(user)
         }
+
+        return hasChanged
     }
 
     fun isKeywordSelectedInStream(keyword: String, streamName: String): Boolean {
-        val customNewsStream: NewsStream = user.customStreams.first { stream ->
-            stream.name.lowercase() == streamName.lowercase() }
-
-        val keywordIndex: Int = user.customKeywords.indexOf(keyword)
-
-        return keywordIndex in customNewsStream.keywords
+        return user.isKeywordSelectedInStream(keyword, streamName)
     }
 
     fun selectKeyword(customStreamName: String, keyword: String) {
-        val keywordIndex: Int = user.customKeywords.indexOf(keyword)
-
-        val customStream = user.customStreams.first { stream ->
-            stream.name.lowercase() == customStreamName.lowercase() }
-        customStream.keywords.add(keywordIndex)
-
-        //check if the custom stream is not the All stream
-        if(user.customStreams[0] != customStream) {
-            //check if the keyword is not already added to the All stream
-            if(keywordIndex !in user.customStreams[0].keywords) {
-                user.customStreams[0].keywords.add(keywordIndex)
-            }
+        if(user.selectKeyword(customStreamName, keyword)) {
+            userReference.setValue(user)
         }
-
-        userReference.setValue(user)
     }
 
     fun unSelectKeyword(customStreamName: String, keyword: String) {
-        val keywordIndex: Int = user.customKeywords.indexOf(keyword)
-
-        val customStream = user.customStreams.first { stream ->
-            stream.name.lowercase() == customStreamName.lowercase() }
-        customStream.keywords.remove(keywordIndex)
-
-        userReference.setValue(user)
+        if(user.unSelectKeyword(customStreamName, keyword)) {
+            userReference.setValue(user)
+        }
     }
 
     fun addBookmark(article: ArticleDto) {
-        val gson = Gson()
-        user.bookmarks.add(gson.toJson(article))
-
-        userReference.child("bookmarks").setValue(user.bookmarks)
+       if (user.addBookmark(article)) {
+           userReference.child("bookmarks").setValue(user.bookmarks)
+       }
     }
 
-    fun removeBookmarks(article: ArticleDto) {
-        val jsonArticle = Gson().toJson(article)
-
-        if(user.bookmarks.contains(jsonArticle)) {
-            user.bookmarks.remove(jsonArticle)
-
+    fun removeBookmark(article: ArticleDto) {
+        if(user.removeBookmark(article)) {
             userReference.child("bookmarks").setValue(user.bookmarks)
         }
     }
 
     fun isBookmarked(article: ArticleDto) : Boolean {
-        return Gson().toJson(article) in user.bookmarks
+        return user.isBookmarked(article)
     }
 
     fun getBookmarks() : List<ArticleDto> {
-        val bookmarks = mutableListOf<ArticleDto>()
-        val gson = Gson()
-
-        for(jsonBookmark in user.bookmarks) {
-            val article : ArticleDto = gson.fromJson(jsonBookmark, ArticleDto::class.java)
-            bookmarks.add(article)
-        }
-
-        return bookmarks
-    }
-
-    fun getKeywordsInBookmarks() : List<String> {
-        val recommendedKeywordSet : MutableSet<String> = mutableSetOf<String>()
-        val allKeywordList : List<String> = getKeywordList()
-        val bookmarkedArticles = getBookmarks()
-
-        for(article in bookmarkedArticles) {
-            val titleWords = article.title.split(" ")
-            for(word in titleWords) {
-                for(keyword in allKeywordList) {
-                    if(keyword.equals(word, true)) {
-                        recommendedKeywordSet.add(word)
-                    }
-                }
-            }
-
-            val descriptionWords = article.description.split(" ")
-            for(word in descriptionWords) {
-                for(keyword in allKeywordList) {
-                    if(keyword.equals(word, true)) {
-                        recommendedKeywordSet.add(word)
-                    }
-                }
-            }
-        }
-
-        return recommendedKeywordSet.toList()
+        return user.bookmarkedArticlesDto();
     }
 
     fun getKeywordForArticle(article: ArticleDto) : String {

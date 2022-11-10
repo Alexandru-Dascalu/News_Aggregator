@@ -97,7 +97,7 @@ class NewsCardAdapter(private var articleList: List<ArticleDto>,
 
                 if(Database.getInstance().isBookmarked(article!!)) {
                     unSelectBookmark(imageButton)
-                    Database.getInstance().removeBookmarks(article!!)
+                    Database.getInstance().removeBookmark(article!!)
                 } else {
                     selectBookmark(imageButton)
                     Database.getInstance().addBookmark(article!!)
